@@ -1,31 +1,28 @@
-Perform a code review on the current changes.
+---
+description: Review current git changes for issues
+allowed-tools: Bash(git diff:*), Bash(git status:*)
+---
 
-1. First, check what files have changed:
-   - Run `git status` to see modified files
-   - Run `git diff` to see unstaged changes
-   - Run `git diff --staged` to see staged changes
+Review the current git changes:
 
-2. For each changed file, review for:
-   - Code correctness and logic errors
-   - Security vulnerabilities (injection, XSS, etc.)
-   - Performance issues
-   - Adherence to project conventions (check CLAUDE.md)
-   - Missing error handling
-   - Missing or inadequate tests
+1. Run `git status` to see modified files
+2. Run `git diff` for unstaged changes
+3. Run `git diff --staged` for staged changes
 
-3. Provide feedback in this format:
+For each changed file, check for:
+- Logic errors
+- Security issues (injection, XSS, exposed secrets)
+- Missing error handling
+- Code style issues
+
+Provide feedback as:
 
 ## Review Summary
 - Files reviewed: [count]
-- Issues found: [count]
-- Severity: [Critical/Warning/Info]
+- Issues: [count]
 
-## Issues
-
-### [Filename]:[Line Number]
-**Severity**: [Critical/Warning/Info]
-**Issue**: [Description]
-**Suggestion**: [How to fix]
-
-## Recommendations
-[Overall recommendations for the changes]
+## Issues (if any)
+### [filename]:[line]
+**Severity**: Critical | Warning | Info
+**Issue**: [description]
+**Suggestion**: [fix]

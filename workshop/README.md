@@ -1,134 +1,172 @@
 # Claude Code Workshop
 
-Welcome to the Claude Code Workshop! This self-paced guide will teach you how to use Claude Code effectively for software development.
+**Total Duration: ~2.5 hours**
+
+A hands-on guide to using Claude Code effectively for software development.
 
 ## Prerequisites
 
 - Claude Code installed (`npm install -g @anthropic-ai/claude-code`)
-- Basic familiarity with command line
-- A code editor of your choice
-- This workshop repository cloned locally
+- Node.js (for MCP servers)
+- Basic command line familiarity
+- This repository cloned locally
 
-## Workshop Structure
+## Workshop Modules
 
-This workshop is organized into 6 progressive modules:
-
-| Module | Topic | Duration | Difficulty |
-|--------|-------|----------|------------|
-| 01 | [Getting Started](./01_getting_started.md) | 20 min | Beginner |
-| 02 | [Claude Memory System](./02_claude_memory.md) | 30 min | Beginner |
-| 03 | [Custom Slash Commands](./03_slash_commands.md) | 45 min | Intermediate |
-| 04 | [Building Skills](./04_skills.md) | 45 min | Intermediate |
-| 05 | [Mastering Subagents](./05_subagents.md) | 60 min | Advanced |
-| 06 | [Advanced Workflows](./06_advanced_workflows.md) | 60 min | Advanced |
+| Module | Topic | Duration |
+|--------|-------|----------|
+| 01 | [Getting Started](./01_getting_started.md) | 20 min |
+| 02 | [Slash Commands](./02_slash_commands.md) | 30 min |
+| 03 | [Skills](./03_skills.md) | 30 min |
+| 04 | [Subagents](./04_subagents.md) | 40 min |
+| 05 | [MCP & Playwright](./05_mcp_playwright.md) | 30 min |
 
 ## Learning Path
 
 ```
-01 Getting Started
-       │
-       ▼
-02 Claude Memory ──────┐
-       │               │
-       ▼               │
-03 Slash Commands      │
-       │               │
-       ▼               │
-04 Skills ◄────────────┘
-       │
-       ▼
-05 Subagents
-       │
-       ▼
-06 Advanced Workflows
+01 Getting Started (/init, CLAUDE.md)
+         │
+         ▼
+02 Slash Commands (automation)
+         │
+         ▼
+03 Skills (expertise)
+         │
+         ▼
+04 Subagents (parallel agents)
+         │
+         ▼
+05 MCP & Playwright (browser testing)
 ```
 
-## Example Files
+---
 
-The `examples/` directory contains ready-to-use configurations:
+## Finished Solutions
+
+The `examples/` folder contains **completed, working versions** of everything you'll build in the workshop.
+
+### What's Included
 
 ```
 examples/
-├── commands/          # Slash command templates
-│   ├── quality-check.md
-│   ├── review.md
-│   ├── test.md
-│   └── debug.md
-├── agents/            # Subagent configurations
-│   ├── code-reviewer.md
-│   ├── test-generator.md
-│   └── doc-generator.md
-└── skills/            # Skill templates
-    ├── api-designer.md
-    └── code-reviewer.md
+├── commands/                    # Slash commands (Module 02 & 05)
+│   ├── quality-check.md         # Run linter, formatter, tests
+│   ├── test.md                  # Run tests with scope filter
+│   ├── review.md                # Review git changes
+│   ├── debug.md                 # Debug helper
+│   └── e2e-test.md              # E2E tests with Playwright MCP
+│
+├── skills/                      # Skills (Module 03)
+│   ├── api-designer/
+│   │   └── SKILL.md             # REST API design expertise
+│   └── code-reviewer/
+│       └── SKILL.md             # Code review expertise
+│
+├── agents/                      # Subagents (Module 04)
+│   ├── code-reviewer.md         # Reviews code for issues
+│   ├── test-generator.md        # Generates tests
+│   └── doc-generator.md         # Generates documentation
+│
+└── mcp.json                     # MCP config (Module 05)
 ```
 
-### Using the Examples
+### Quick Setup
 
-To use these examples in your project:
+Copy all examples to your project:
 
 ```bash
-# Copy commands to your project
-cp -r workshop/examples/commands .claude/commands/
+# From project root
+mkdir -p .claude
 
-# Copy agents to your project
-cp -r workshop/examples/agents .claude/agents/
+# Copy commands, skills, agents
+cp -r workshop/examples/commands .claude/
+cp -r workshop/examples/skills .claude/
+cp -r workshop/examples/agents .claude/
 
-# Copy skills to your project
-cp -r workshop/examples/skills .claude/skills/
+# Copy MCP configuration
+cp workshop/examples/mcp.json .mcp.json
 ```
 
-## Quick Start
+Then test:
+```bash
+# Test a command
+claude
+/quality-check
 
-If you're short on time, here's the essential path:
+# Verify MCP
+claude mcp list
+```
 
-1. **Module 01**: Run `/init` to set up Claude (5 min)
-2. **Module 03**: Create your first command (15 min)
-3. **Module 05**: Try running agents (10 min)
+---
 
-## Tips for Success
+## What You'll Learn
 
-1. **Follow in order** - Each module builds on the previous
-2. **Practice actively** - Don't just read, try every example
-3. **Customize examples** - Modify them for your workflow
-4. **Experiment** - Try combining features in new ways
+| Module | Feature | What It Does |
+|--------|---------|--------------|
+| 01 | `/init` | Generates CLAUDE.md project memory |
+| 02 | Commands | Reusable prompts via `/name` |
+| 03 | Skills | Domain expertise for Claude |
+| 04 | Agents | Autonomous parallel workers |
+| 05 | MCP | External tools (browser automation) |
+
+---
+
+## Final Project Structure
+
+After completing all modules:
+
+```
+your-project/
+├── .claude/
+│   ├── commands/
+│   │   ├── quality-check.md
+│   │   ├── test.md
+│   │   ├── review.md
+│   │   ├── debug.md
+│   │   └── e2e-test.md
+│   ├── skills/
+│   │   ├── api-designer/
+│   │   │   └── SKILL.md
+│   │   └── code-reviewer/
+│   │       └── SKILL.md
+│   └── agents/
+│       ├── code-reviewer.md
+│       └── test-generator.md
+├── .mcp.json                    # MCP servers config
+└── CLAUDE.md                    # Project memory (via /init)
+```
+
+---
 
 ## Troubleshooting
 
-### Claude Code not found
+**Claude Code not found:**
 ```bash
 npm install -g @anthropic-ai/claude-code
 ```
 
-### Permission errors
-Make sure scripts are executable:
+**Commands not appearing:**
 ```bash
-chmod +x scripts/*.sh
+ls .claude/commands/
 ```
 
-### Commands not appearing
-Ensure your `.claude/commands/` directory exists and contains `.md` files.
+**Skills not loading:**
+```bash
+ls .claude/skills/*/SKILL.md
+```
 
-## Getting Help
+**MCP server issues:**
+```bash
+claude mcp list
+claude mcp get playwright
+```
 
-- Type `/help` in Claude Code for built-in help
-- Check [Claude Code Documentation](https://docs.anthropic.com/claude-code)
-- Report issues at [GitHub](https://github.com/anthropics/claude-code/issues)
+## Help
 
-## What You'll Build
-
-By the end of this workshop, you'll have:
-
-- A fully configured `CLAUDE.md` memory file
-- 5+ custom slash commands
-- 3+ reusable skills
-- 2+ custom agent configurations
-- Automated workflows for common tasks
-
-## Let's Begin!
-
-Start with [Module 01: Getting Started](./01_getting_started.md)
+- Type `/help` in Claude Code
+- Type `/mcp` to check MCP server status
+- [Claude Code Docs](https://docs.anthropic.com/claude-code)
 
 ---
 
-Happy coding with Claude!
+Start with [01_getting_started.md](./01_getting_started.md)

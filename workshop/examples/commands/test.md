@@ -1,11 +1,16 @@
+---
+description: Run tests with optional scope filter
+argument-hint: [scope]
+allowed-tools: Bash(pytest:*)
+---
+
 Run tests based on the provided scope.
 
-Arguments provided: $ARGUMENTS
+Arguments: $ARGUMENTS
 
-Based on the arguments:
-- If empty: run all tests with `pytest tests/ -v`
-- If "api": run only API tests with `pytest tests/test_api.py -v`
-- If "models": run only model tests with `pytest tests/test_models.py -v`
-- If a specific test name: run `pytest tests/ -v -k "$ARGUMENTS"`
+- If empty: run `pytest tests/ -v`
+- If "api": run `pytest tests/test_api.py -v`
+- If "models": run `pytest tests/test_models.py -v`
+- Otherwise: run `pytest tests/ -v -k "$ARGUMENTS"`
 
-Show the test output and summarize the results.
+Summarize the results.

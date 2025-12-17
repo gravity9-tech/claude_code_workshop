@@ -1,28 +1,15 @@
-Help debug the issue described: $ARGUMENTS
+---
+description: Help debug an issue
+argument-hint: <issue description>
+allowed-tools: Read, Grep, Glob, Bash(git log:*), Bash(pytest:*)
+---
 
-Follow this debugging process:
+Help debug: $ARGUMENTS
 
-1. **Understand the Problem**
-   - What is the expected behavior?
-   - What is the actual behavior?
-   - When did it start happening?
+1. Search for related code using Grep and Glob
+2. Check recent changes: `git log --oneline -10`
+3. Run relevant tests: `pytest tests/ -v`
+4. Identify the likely root cause
+5. Propose solutions with trade-offs
 
-2. **Gather Information**
-   - Check relevant log files
-   - Look at recent changes: `git log --oneline -10`
-   - Check if tests pass: `pytest tests/ -v`
-
-3. **Identify Root Cause**
-   - Search for related code
-   - Check for common issues:
-     - Import errors
-     - Type mismatches
-     - Missing dependencies
-     - Configuration issues
-
-4. **Propose Solutions**
-   - List possible fixes
-   - Recommend the best approach
-   - Explain trade-offs
-
-If $ARGUMENTS is empty, ask me to describe the issue.
+If no issue is described, ask for details.

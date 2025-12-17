@@ -1,247 +1,121 @@
 # Workshop 01: Getting Started with Claude Code
 
-## Learning Objectives
+**Duration: ~20 minutes**
 
-By the end of this workshop, you will:
-- Understand what Claude Code is and how it differs from traditional AI assistants
+## What You'll Learn
+
 - Initialize Claude Code in a project using `/init`
-- Understand the CLAUDE.md memory system
-- Run your first commands and understand the permission model
+- Understand the generated CLAUDE.md memory file
+- Basic commands and permission model
 
 ---
 
 ## What is Claude Code?
 
-Claude Code is Anthropic's official CLI tool that brings Claude directly into your terminal. Unlike chat-based interfaces, Claude Code:
+Claude Code is Anthropic's official CLI that brings Claude into your terminal. It can:
 
-- **Operates in your codebase**: It can read, write, and execute code in your actual project
-- **Maintains context**: Through CLAUDE.md files, it remembers project-specific information
-- **Uses tools**: It can run bash commands, search files, make edits, and more
-- **Works autonomously**: It can plan and execute multi-step tasks
-
----
-
-## Task 1: Installing Claude Code (if not already installed)
-
-If you haven't installed Claude Code yet, run:
-
-```bash
-npm install -g @anthropic-ai/claude-code
-```
-
-Verify the installation:
-
-```bash
-claude --version
-```
+- Read, write, and execute code in your project
+- Maintain context through CLAUDE.md memory files
+- Run bash commands, search files, make edits
+- Work autonomously on multi-step tasks
 
 ---
 
-## Task 2: Initialize Claude Code with `/init`
+## Task 1: Start Claude Code
 
-The `/init` command is your first step in any new project. It creates a `CLAUDE.md` file that serves as Claude's "memory" for your project.
-
-### Step 1: Navigate to the project
+Navigate to the project and start Claude:
 
 ```bash
 cd claude_code_workshop
-```
-
-### Step 2: Start Claude Code
-
-```bash
 claude
 ```
 
-### Step 3: Run the init command
+---
 
-Once inside the Claude Code interface, type:
+## Task 2: Initialize with `/init`
+
+The `/init` command creates a `CLAUDE.md` file - Claude's memory for your project.
+
+In Claude Code, type:
 
 ```
 /init
 ```
 
-### What happens during `/init`?
+### What Happens
 
 Claude will:
 1. Analyze your project structure
-2. Read key configuration files (package.json, pyproject.toml, etc.)
-3. Understand your tech stack
-4. Generate a `CLAUDE.md` file with project context
-
-### Expected Output
-
-After running `/init`, you should see a new `CLAUDE.md` file in your project root. It will contain:
-
-- Project overview
-- Tech stack information
-- Important commands (build, test, lint)
-- Project structure
-- Coding conventions
+2. Read configuration files (pyproject.toml, requirements.txt, etc.)
+3. Identify your tech stack
+4. Generate a `CLAUDE.md` with project context
 
 ---
 
 ## Task 3: Explore the Generated CLAUDE.md
 
-Open the generated `CLAUDE.md` file and examine its contents:
+Open the generated file:
 
 ```bash
 cat CLAUDE.md
 ```
 
-### Understanding CLAUDE.md Structure
+You'll see sections like:
+- Project overview
+- Tech stack
+- Common commands (run, test, lint)
+- Project structure
 
-The file typically contains:
-
-```markdown
-# Project Name
-
-## Overview
-Brief description of what the project does
-
-## Tech Stack
-- Language: Python 3.11
-- Framework: FastAPI
-- Testing: Pytest
-
-## Commands
-- Run server: `python main.py`
-- Run tests: `pytest tests/ -v`
-- Lint: `./scripts/lint.sh`
-
-## Project Structure
-Key directories and their purposes
-
-## Conventions
-Coding standards and patterns used
-```
-
-### Why is this important?
-
-Every time you start a new Claude Code session, Claude reads this file first. This means:
-- Claude immediately understands your project
-- You don't need to re-explain context
-- Commands and conventions are consistent
+**Why this matters**: Every new Claude session reads this file first, so Claude immediately understands your project.
 
 ---
 
-## Task 4: Customize Your CLAUDE.md
+## Task 4: Understanding Permissions
 
-The generated CLAUDE.md is a starting point. You should customize it!
+Claude Code uses a permission system:
 
-### Add project-specific information:
+| Operation | Permission |
+|-----------|------------|
+| Reading files | Usually automatic |
+| Writing/editing files | Requires approval |
+| Running commands | Requires approval |
 
-Edit `CLAUDE.md` and add:
+Try it - ask Claude to:
+```
+Show me app/main.py
+```
 
-1. **Team conventions**:
-   ```markdown
-   ## Team Conventions
-   - All API endpoints must have tests
-   - Use type hints in Python code
-   - Commit messages follow conventional commits
-   ```
+Then:
+```
+Add a comment to the top of app/main.py
+```
 
-2. **Common gotchas**:
-   ```markdown
-   ## Gotchas
-   - The mock_data.py file should not be modified directly
-   - Always run tests before committing
-   ```
-
-3. **Preferred approaches**:
-   ```markdown
-   ## Preferences
-   - Prefer composition over inheritance
-   - Use Pydantic for all data validation
-   - Keep functions under 20 lines when possible
-   ```
+Notice how Claude asks permission before making changes.
 
 ---
 
-## Task 5: Understanding the Permission Model
-
-Claude Code operates with a permission system to keep you in control.
-
-### Permission Levels
-
-1. **Read operations**: Usually allowed automatically
-   - Reading files
-   - Searching code
-   - Listing directories
-
-2. **Write operations**: Requires approval
-   - Creating files
-   - Editing files
-   - Deleting files
-
-3. **Execute operations**: Requires approval
-   - Running bash commands
-   - Installing packages
-   - Running tests
-
-### Try it yourself
-
-Ask Claude to do something and observe the permission prompt:
-
-```
-Show me the contents of app/main.py
-```
-
-Then try:
-
-```
-Add a comment to app/main.py explaining the app initialization
-```
-
-Notice how Claude asks for permission before making changes.
-
----
-
-## Task 6: Basic Commands to Know
-
-Here are essential commands you'll use regularly:
+## Essential Commands
 
 | Command | Description |
 |---------|-------------|
-| `/init` | Initialize/regenerate CLAUDE.md |
-| `/help` | Show help and available commands |
-| `/clear` | Clear conversation context |
-| `/compact` | Summarize conversation to save context |
-| `/cost` | Show token usage and cost |
-| `/config` | View or modify settings |
-
-### Try each command
-
-1. Run `/help` to see all available commands
-2. Run `/cost` to see your current usage
-3. Run `/config` to see your settings
+| `/init` | Generate CLAUDE.md |
+| `/help` | Show available commands |
+| `/clear` | Clear conversation |
+| `/cost` | Show token usage |
 
 ---
 
-## Checkpoint: Verify Your Progress
+## Checkpoint
 
-Before moving to the next workshop, ensure you have:
+Before continuing, verify:
 
-- [ ] Claude Code installed and running
-- [ ] Run `/init` in the workshop project
-- [ ] A `CLAUDE.md` file exists in your project root
-- [ ] You've examined the generated content
+- [ ] Claude Code is running
+- [ ] You ran `/init`
+- [ ] `CLAUDE.md` exists in project root
 - [ ] You understand the permission model
-- [ ] You've tried the basic commands
 
 ---
 
-## Key Takeaways
+## Next Up
 
-1. **`/init` is your starting point** - Always run it in new projects
-2. **CLAUDE.md is Claude's memory** - Customize it for better results
-3. **Permissions keep you safe** - Claude asks before making changes
-4. **Context matters** - The better your CLAUDE.md, the better Claude performs
-
----
-
-## Next Steps
-
-In the next workshop, you'll learn how to create **custom slash commands** to automate repetitive tasks specific to your workflow.
-
-Continue to: [02_claude_memory.md](./02_claude_memory.md)
+Continue to: [02_slash_commands.md](./02_slash_commands.md) - Create custom commands

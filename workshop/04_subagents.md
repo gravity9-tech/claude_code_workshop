@@ -1,6 +1,6 @@
 # Workshop 04: Mastering Subagents
 
-**Duration: ~40 minutes**
+**Duration: ~16 minutes**
 
 ## What You'll Learn
 

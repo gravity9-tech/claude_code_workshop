@@ -1,6 +1,6 @@
 # Claude Code Workshop
 
-**Total Duration: ~2.5 hours**
+**Total Duration: ~1 hour**
 
 A hands-on guide to using Claude Code effectively for software development.
 
@@ -15,11 +15,11 @@ A hands-on guide to using Claude Code effectively for software development.
 
 | Module | Topic | Duration |
 |--------|-------|----------|
-| 01 | [Getting Started](./01_getting_started.md) | 20 min |
-| 02 | [Slash Commands](./02_slash_commands.md) | 30 min |
-| 03 | [Skills](./03_skills.md) | 30 min |
-| 04 | [Subagents](./04_subagents.md) | 40 min |
-| 05 | [MCP & Playwright](./05_mcp_playwright.md) | 30 min |
+| 01 | [Getting Started](./01_getting_started.md) | 8 min |
+| 02 | [Slash Commands](./02_slash_commands.md) | 12 min |
+| 03 | [Skills](./03_skills.md) | 12 min |
+| 04 | [Subagents](./04_subagents.md) | 16 min |
+| 05 | [MCP & Playwright](./05_mcp_playwright.md) | 12 min |
 
 ## Learning Path
 

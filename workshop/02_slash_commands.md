@@ -1,6 +1,6 @@
 # Workshop 02: Creating Custom Slash Commands
 
-**Duration: ~30 minutes**
+**Duration: ~12 minutes**
 
 ## What You'll Learn
 

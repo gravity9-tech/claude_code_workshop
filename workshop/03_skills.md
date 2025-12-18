@@ -1,6 +1,6 @@
 # Workshop 03: Building Reusable Skills
 
-**Duration: ~30 minutes**
+**Duration: ~12 minutes**
 
 ## What You'll Learn
 

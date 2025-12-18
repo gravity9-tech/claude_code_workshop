@@ -1,6 +1,6 @@
 # Workshop 05: MCP Servers & Playwright Testing
 
-**Duration: ~30 minutes**
+**Duration: ~12 minutes**
 
 ## What You'll Learn
 

@@ -38,6 +38,19 @@ htmlcov/
 .dmypy.json
 dmypy.json
 
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Angular
+frontend/dist/
+frontend/.angular/
+frontend/.sass-cache/
+frontend/coverage/
+frontend/testem.log
+
 # IDEs
 .vscode/
 .idea/
@@ -48,3 +61,8 @@ dmypy.json
 
 # Logs
 *.log
+
+# Environment
+.env
+.env.local
+.env.*.local

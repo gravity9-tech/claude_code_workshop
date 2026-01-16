@@ -1,145 +1,200 @@
-# Pandora - Luxury Jewelry E-Commerce PWA
+# Pandora - Luxury Jewelry E-Commerce
 
-A professional Progressive Web App (PWA) for showcasing luxury jewelry with a modern, elegant design.
+A full-stack luxury jewelry e-commerce application with an Angular frontend and FastAPI backend.
 
 ## Features
 
-- 🎨 **Modern UI** - Elegant design with Tailwind CSS featuring a luxury gold/black color scheme
-- 📱 **Responsive Design** - Mobile-first design that works beautifully on all devices
-- 🛒 **Shopping Cart** - Full-featured cart with add/remove items and quantity management
-- 🔍 **Category Filtering** - Filter products by rings, necklaces, and bracelets
-- 💾 **Persistent Cart** - Cart data saved in localStorage
-- ⚡ **PWA Features** - Installable app with offline support via service worker
-- ✅ **Tested** - Comprehensive test coverage for API and models
+- **Modern UI** - Elegant design with Tailwind CSS featuring a luxury gold/black color scheme
+- **Responsive Design** - Mobile-first design that works beautifully on all devices
+- **Shopping Cart** - Full-featured cart with add/remove items and quantity management
+- **Wishlist** - Save favorite items for later
+- **Product Filtering** - Filter by category, price range, and material
+- **Product Customization** - 4-step wizard for customizing jewelry (metal, details, engraving)
+- **Dark Mode** - Toggle between light and dark themes
+- **Persistent State** - Cart and wishlist saved in localStorage
 
 ## Technology Stack
 
-- **Backend**: Python 3.11 + FastAPI
-- **Frontend**: HTML5, CSS3, JavaScript (Vanilla)
-- **Styling**: Tailwind CSS
-- **Testing**: Pytest
-- **Server**: Uvicorn
+### Backend
+- **Python 3.12** + **FastAPI**
+- **Pydantic** for data validation
+- **Uvicorn** ASGI server
+- **Pytest** for testing
+
+### Frontend
+- **Angular 19** (standalone components)
+- **TypeScript**
+- **Tailwind CSS 4**
+- **RxJS** for state management
 
 ## Project Structure
 
 ```
-devin-pandora/
-├── app/
-│   ├── __init__.py
-│   ├── main.py              # FastAPI application
-│   ├── models.py            # Pydantic models
-│   ├── mock_data.py         # Mock product data (15 products)
-│   └── api/
-│       ├── __init__.py
-│       └── routes.py        # API endpoints
-├── static/
-│   ├── css/
-│   │   └── styles.css       # Custom styles
-│   ├── js/
-│   │   ├── app.js          # Main application logic
-│   │   ├── cart.js         # Shopping cart functionality
-│   │   └── service-worker.js # PWA service worker
-│   └── manifest.json       # PWA manifest
-├── templates/
-│   └── index.html          # Main HTML template
-├── tests/
-│   ├── __init__.py
-│   ├── test_api.py         # API tests
-│   └── test_models.py      # Model tests
-├── requirements.txt        # Python dependencies
-├── pytest.ini             # Pytest configuration
+pandora-demo/
+├── backend/                    # FastAPI Python backend
+│   ├── app/
+│   │   ├── api/
+│   │   │   └── routes.py       # API endpoints
+│   │   ├── main.py             # FastAPI app with CORS
+│   │   ├── models.py           # Pydantic models
+│   │   ├── mock_data.py        # Product data
+│   │   └── customization_config.py
+│   ├── tests/
+│   ├── scripts/
+│   ├── main.py                 # Uvicorn entry point
+│   ├── requirements.txt
+│   └── pytest.ini
+│
+├── frontend/                   # Angular frontend
+│   ├── src/
+│   │   ├── app/
+│   │   │   ├── core/           # Services & models
+│   │   │   ├── shared/         # Reusable components
+│   │   │   └── features/       # Feature modules
+│   │   ├── environments/
+│   │   └── styles.css
+│   ├── angular.json
+│   ├── package.json
+│   ├── proxy.conf.json
+│   └── tailwind.config.js
+│
+├── Makefile                    # Development commands
+├── .gitignore
 └── README.md
 ```
 
-## Installation
+## Getting Started
 
-1. Clone the repository
-2. Install dependencies:
+### Prerequisites
 
-```bash
-pip install -r requirements.txt
-```
+- Python 3.12+
+- Node.js 18+
+- npm
 
-## Running the Application
+### Installation
 
-Start the development server:
-
-```bash
-cd ClaudeCodeWorkshop
-python main.py
-```
-
-The application will be available at `http://localhost:8000`
-
-## Running Tests
-
-Run the test suite:
+Install all dependencies:
 
 ```bash
-pytest tests/ -v
+make install
 ```
 
-All 16 tests should pass successfully.
+Or install separately:
+
+```bash
+# Backend (creates venv and installs dependencies)
+make install-backend
+
+# Frontend
+cd frontend && npm install
+```
+
+The backend uses a virtual environment located at `backend/venv/`. The Makefile automatically creates and manages this environment.
+
+### Running the Application
+
+Start both backend and frontend in development mode:
+
+```bash
+make dev
+```
+
+Or run them separately:
+
+```bash
+# Backend (port 8000)
+make start-backend
+
+# Frontend (port 4210)
+make start-frontend
+```
+
+The application will be available at:
+- **Frontend**: http://localhost:4210
+- **Backend API**: http://localhost:8000
+- **API Docs**: http://localhost:8000/docs
+
+## Makefile Commands
+
+| Command | Description |
+|---------|-------------|
+| `make install` | Install all dependencies |
+| `make dev` | Start both servers in parallel |
+| `make start-backend` | Start backend only (port 8000) |
+| `make start-frontend` | Start frontend only (port 4210) |
+| `make build` | Build frontend for production |
+| `make test` | Run all tests |
+| `make test-backend` | Run backend tests only |
+| `make lint` | Run linters |
+| `make clean` | Remove build artifacts |
+| `make clean-all` | Remove venv and node_modules |
 
 ## API Endpoints
 
-- `GET /` - Main application page
-- `GET /api/products` - Get all products
-- `GET /api/products/{id}` - Get specific product by ID
-- `GET /api/products/category/{category}` - Get products by category (rings, necklaces, bracelets)
-- `GET /manifest.json` - PWA manifest
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/products` | Get all products (supports filtering) |
+| GET | `/api/products/{id}` | Get product by ID |
+| GET | `/api/products/category/{category}` | Get products by category |
+| GET | `/api/customization-config/{category}` | Get customization options |
+| GET | `/health` | Health check |
 
-## Features Overview
+### Query Parameters for `/api/products`
 
-### Product Showcase
-- Grid layout with beautiful product cards
-- High-quality images from Unsplash
-- Category badges
-- Hover effects and animations
+- `category` - Filter by category (rings, necklaces, bracelets)
+- `price_max` - Maximum price filter
+- `material` - Filter by material (Silver, Gold, Rose Gold, White Gold)
 
-### Shopping Cart
-- Slide-out sidebar cart
-- Add/remove items
-- Quantity controls
-- Real-time total calculation
-- Persistent storage
+## Frontend Architecture
 
-### Category Filtering
-- Filter by: All, Rings, Necklaces, Bracelets
-- Responsive menu (desktop and mobile)
-- Active filter highlighting
+### Core Services
+- **ProductService** - API calls for products
+- **CartService** - Shopping cart state management
+- **WishlistService** - Wishlist state management
+- **ThemeService** - Dark/light mode toggle
+- **CustomizationService** - Product customization logic
+- **NotificationService** - Toast notifications
 
-### PWA Features
-- Installable on mobile and desktop
-- Offline support with service worker
-- App manifest for native-like experience
-- Theme color and icons
+### Feature Modules
+- **Home** - Product listing with hero, filters, and grid
+- **Wishlist** - Saved items page
+- **Customization** - 4-step customization modal
 
-## Mock Data
+### Shared Components
+- Header, Footer, ProductCard, CartSidebar, LoadingSpinner, NotificationToast
+
+## Testing
+
+Run all tests:
+
+```bash
+make test
+```
+
+Backend tests only:
+
+```bash
+make test-backend
+# or
+cd backend && pytest -v
+```
+
+## Product Data
 
 The application includes 15 luxury jewelry products:
-- 5 Rings (Diamond, Rose Gold, Emerald, Sapphire, Champagne Diamond)
-- 5 Necklaces (Tennis, Pearl, Emerald, Gold Chain, Ruby)
-- 5 Bracelets (Tennis, Bangle Set, Sapphire Link, Gold Cuff, Pearl Bangle)
+- **5 Rings** - Various styles with customization options
+- **5 Necklaces** - Chains, pendants, and tennis necklaces
+- **5 Bracelets** - Bangles, cuffs, and charm bracelets
 
-All products feature realistic pricing ($1,399 - $8,999) and professional descriptions.
+Products range from $899 to $3,299 with materials including Silver, Gold, Rose Gold, and White Gold.
 
 ## Development Notes
 
-- Uses Pydantic for data validation
-- FastAPI automatic API documentation at `/docs`
-- Tailwind CSS for rapid styling
-- Vanilla JavaScript for lightweight client-side code
-- LocalStorage for cart persistence
-- Service Worker for offline capability
-
-## Browser Support
-
-- Chrome/Edge (latest)
-- Firefox (latest)
-- Safari (latest)
-- Mobile browsers (iOS Safari, Chrome Mobile)
+- Frontend proxies `/api` requests to backend during development
+- CORS is configured for `localhost:4210`
+- State is persisted to localStorage (cart, wishlist, theme)
+- Tailwind CSS with custom theme colors (gold, dark-gold, luxury)
 
 ---
 
-**Built with ❤️ using FastAPI, Tailwind CSS, and modern web technologies**
+**Built with Angular, FastAPI, and Tailwind CSS**

@@ -11,7 +11,7 @@ import asyncio
 import pytest
 from playwright.async_api import Browser, Page, async_playwright
 
-BASE_URL = "http://localhost:8000"
+BASE_URL = "http://localhost:4321"
 
 
 @pytest.fixture(scope="session")

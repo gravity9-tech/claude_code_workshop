@@ -68,7 +68,7 @@ import { CartItem } from '../../core/models/cart-item.model';
                   @for (value of getOptionValues('package_size'); track value.value) {
                     <div
                       class="option-card"
-                      [class.selected]="customizations['package_size']?.value === value.value"
+                      [class.selected]="customizations['package_size'].value === value.value"
                       (click)="selectOption('package_size', value.value, value.price_modifier)">
                       <div class="option-card-header">
                         <span class="option-name">{{ value.display_name }}</span>
@@ -98,7 +98,7 @@ import { CartItem } from '../../core/models/cart-item.model';
                     <label class="form-label">Brew Strength *</label>
                     <select
                       class="form-select"
-                      [ngModel]="customizations['brew_strength']?.value || ''"
+                      [ngModel]="customizations['brew_strength'].value || ''"
                       (ngModelChange)="selectOption('brew_strength', $event, 0)">
                       <option value="">Select strength...</option>
                       @for (value of getOptionValues('brew_strength'); track value.value) {
@@ -114,7 +114,7 @@ import { CartItem } from '../../core/models/cart-item.model';
                       @for (value of getOptionValues('add_ons'); track value.value) {
                         <div
                           class="option-card"
-                          [class.selected]="customizations['add_ons']?.value === value.value"
+                          [class.selected]="customizations['add_ons'].value === value.value"
                           (click)="selectOption('add_ons', value.value, value.price_modifier)">
                           <div class="option-card-header">
                             <span class="option-name">{{ value.display_name }}</span>
@@ -140,7 +140,7 @@ import { CartItem } from '../../core/models/cart-item.model';
                     <label class="form-label">Leaf Style *</label>
                     <select
                       class="form-select"
-                      [ngModel]="customizations['leaf_style']?.value || ''"
+                      [ngModel]="customizations['leaf_style'].value || ''"
                       (ngModelChange)="selectLeafStyle($event)">
                       <option value="">Select style...</option>
                       @for (value of getOptionValues('leaf_style'); track value.value) {
@@ -157,7 +157,7 @@ import { CartItem } from '../../core/models/cart-item.model';
                       @for (value of getOptionValues('accessories'); track value.value) {
                         <div
                           class="option-card"
-                          [class.selected]="customizations['accessories']?.value === value.value"
+                          [class.selected]="customizations['accessories'].value === value.value"
                           (click)="selectOption('accessories', value.value, value.price_modifier)">
                           <div class="option-card-header">
                             <span class="option-name">{{ value.display_name }}</span>
@@ -180,7 +180,7 @@ import { CartItem } from '../../core/models/cart-item.model';
                     <label class="form-label">Roast Level *</label>
                     <select
                       class="form-select"
-                      [ngModel]="customizations['roast_level']?.value || ''"
+                      [ngModel]="customizations['roast_level'].value || ''"
                       (ngModelChange)="selectOption('roast_level', $event, 0)">
                       <option value="">Select roast...</option>
                       @for (value of getOptionValues('roast_level'); track value.value) {
@@ -195,7 +195,7 @@ import { CartItem } from '../../core/models/cart-item.model';
                       @for (value of getOptionValues('brewing_vessel'); track value.value) {
                         <div
                           class="option-card"
-                          [class.selected]="customizations['brewing_vessel']?.value === value.value"
+                          [class.selected]="customizations['brewing_vessel'].value === value.value"
                           (click)="selectOption('brewing_vessel', value.value, value.price_modifier)">
                           <div class="option-card-header">
                             <span class="option-name">{{ value.display_name }}</span>
@@ -221,7 +221,7 @@ import { CartItem } from '../../core/models/cart-item.model';
                     <label class="form-label">Blend Preference *</label>
                     <select
                       class="form-select"
-                      [ngModel]="customizations['blend_type']?.value || ''"
+                      [ngModel]="customizations['blend_type'].value || ''"
                       (ngModelChange)="selectBlendType($event)">
                       <option value="">Select blend...</option>
                       @for (value of getOptionValues('blend_type'); track value.value) {
@@ -265,21 +265,21 @@ import { CartItem } from '../../core/models/cart-item.model';
                     class="form-input"
                     rows="4"
                     [maxLength]="getMaxGiftNoteLength()"
-                    [ngModel]="customizations['gift_note']?.value || ''"
+                    [ngModel]="customizations['gift_note'].value || ''"
                     (ngModelChange)="updateGiftNote($event)"
                     placeholder="Enter your message..."></textarea>
                   <div class="flex justify-between mt-2">
                     <p class="form-help">Letters, numbers, and basic punctuation only</p>
                     <span class="text-sm text-gray-500">
-                      {{ (customizations['gift_note']?.value?.length || 0) }}/{{ getMaxGiftNoteLength() }}
+                      {{ (customizations['gift_note'].value.length || 0) }}/{{ getMaxGiftNoteLength() }}
                     </span>
                   </div>
                 </div>
 
-                @if (customizations['gift_note']?.value) {
+                @if (customizations['gift_note'].value) {
                   <div class="mt-6 p-4 bg-gray-100 rounded-lg text-center">
                     <p class="text-sm text-gray-500 mb-2">Preview</p>
-                    <p class="text-lg italic text-gold">"{{ customizations['gift_note']?.value }}"</p>
+                    <p class="text-lg italic text-gold">"{{ customizations['gift_note'].value }}"</p>
                   </div>
                 }
               </div>

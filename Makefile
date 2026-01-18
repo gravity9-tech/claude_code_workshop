@@ -19,8 +19,8 @@ help:
 	@echo ""
 	@echo "Development:"
 	@echo "  make dev              - Start both backend and frontend (parallel)"
-	@echo "  make start-backend    - Start backend server only (port 8000)"
-	@echo "  make start-frontend   - Start frontend dev server only (port 4210)"
+	@echo "  make start-backend    - Start backend server only (port 8765)"
+	@echo "  make start-frontend   - Start frontend dev server only (port 4321)"
 	@echo ""
 	@echo "Build & Test:"
 	@echo "  make build            - Build frontend for production"
@@ -65,9 +65,9 @@ install-frontend:
 # Note: This uses background processes - use Ctrl+C to stop both
 dev:
 	@echo "Starting development servers..."
-	@echo "Backend: http://localhost:8000"
-	@echo "Frontend: http://localhost:4210"
-	@echo "API Docs: http://localhost:8000/docs"
+	@echo "Backend: http://localhost:8765"
+	@echo "Frontend: http://localhost:4321"
+	@echo "API Docs: http://localhost:8765/docs"
 	@echo ""
 	@echo "Press Ctrl+C to stop both servers"
 	@trap 'kill 0' INT; \
@@ -76,11 +76,11 @@ dev:
 	wait
 
 start-backend:
-	@echo "Starting backend server on http://localhost:8000..."
+	@echo "Starting backend server on http://localhost:8765..."
 	cd backend && ../$(VENV)/bin/python main.py
 
 start-frontend:
-	@echo "Starting frontend dev server on http://localhost:4210..."
+	@echo "Starting frontend dev server on http://localhost:4321..."
 	cd frontend && npm start
 
 # ============================================================================

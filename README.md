@@ -102,17 +102,17 @@ make dev
 Or run them separately:
 
 ```bash
-# Backend (port 8000)
+# Backend (port 8765)
 make start-backend
 
-# Frontend (port 4210)
+# Frontend (port 4321)
 make start-frontend
 ```
 
 The application will be available at:
-- **Frontend**: http://localhost:4210
-- **Backend API**: http://localhost:8000
-- **API Docs**: http://localhost:8000/docs
+- **Frontend**: http://localhost:4321
+- **Backend API**: http://localhost:8765
+- **API Docs**: http://localhost:8765/docs
 
 ## Makefile Commands
 
@@ -120,8 +120,8 @@ The application will be available at:
 |---------|-------------|
 | `make install` | Install all dependencies |
 | `make dev` | Start both servers in parallel |
-| `make start-backend` | Start backend only (port 8000) |
-| `make start-frontend` | Start frontend only (port 4210) |
+| `make start-backend` | Start backend only (port 8765) |
+| `make start-frontend` | Start frontend only (port 4321) |
 | `make build` | Build frontend for production |
 | `make test` | Run all tests |
 | `make test-backend` | Run backend tests only |
@@ -191,7 +191,7 @@ Products range from $899 to $3,299 with materials including Silver, Gold, Rose G
 ## Development Notes
 
 - Frontend proxies `/api` requests to backend during development
-- CORS is configured for `localhost:4210`
+- CORS is configured for `localhost:4321`
 - State is persisted to localStorage (cart, wishlist, theme)
 - Tailwind CSS with custom theme colors (gold, dark-gold, luxury)
 

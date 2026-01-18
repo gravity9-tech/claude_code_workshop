@@ -30,6 +30,7 @@ PRODUCTS = [
         material="India",
         image="https://images.unsplash.com/photo-1597318181409-cf64d0b5d8a2?w=500",
         description="The champagne of teas - delicate muscatel notes from the Himalayan foothills.",
+        customizable=False,
     ),
     Product(
         id=4,
@@ -39,6 +40,7 @@ PRODUCTS = [
         material="India",
         image="https://images.unsplash.com/photo-1571934811356-5cc061b6821f?w=500",
         description="Rich, malty black tea with golden tips from the finest Assam gardens.",
+        customizable=False,
     ),
     Product(
         id=5,
@@ -48,6 +50,7 @@ PRODUCTS = [
         material="Taiwan",
         image="https://images.unsplash.com/photo-1558160074-4d7d8bdf4256?w=500",
         description="Grown at 2,000m elevation in Ali Shan. Creamy, floral with a buttery finish.",
+        customizable=False,
     ),
     Product(
         id=6,
@@ -77,6 +80,7 @@ PRODUCTS = [
         material="India",
         image="https://images.unsplash.com/photo-1594631252845-29fc4cc8cde9?w=500",
         description="Classic bergamot-infused black tea blend with blue cornflower petals.",
+        customizable=False,
     ),
     Product(
         id=9,
@@ -86,6 +90,7 @@ PRODUCTS = [
         material="China",
         image="https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=500",
         description="Pure Egyptian chamomile flowers for a calming, golden infusion.",
+        customizable=False,
     ),
     Product(
         id=10,
@@ -115,6 +120,7 @@ PRODUCTS = [
         material="Japan",
         image="https://images.unsplash.com/photo-1515696955266-4f67e13219e8?w=500",
         description="Japan's most prized green tea, shaded 20 days for intense umami sweetness.",
+        customizable=False,
     ),
     Product(
         id=13,
@@ -124,6 +130,7 @@ PRODUCTS = [
         material="India",
         image="https://images.unsplash.com/photo-1587049016823-69ef9d68bd44?w=500",
         description="Cool, invigorating peppermint leaves perfect for digestive wellness.",
+        customizable=False,
     ),
     Product(
         id=14,
@@ -133,6 +140,7 @@ PRODUCTS = [
         material="China",
         image="https://images.unsplash.com/photo-1530968033775-2c92736b131e?w=500",
         description="15-year aged fermented tea from Yunnan with earthy, smooth complexity.",
+        customizable=False,
     ),
     Product(
         id=15,
@@ -142,6 +150,7 @@ PRODUCTS = [
         material="India",
         image="https://images.unsplash.com/photo-1597481499750-3e6b22637e12?w=500",
         description="Caffeine-free South African red bush tea with natural vanilla bean.",
+        customizable=False,
     ),
 ]
 

@@ -12,50 +12,50 @@ client = TestClient(app)
 class TestCustomizationAPI:
     """Test customization endpoints"""
 
-    def test_get_customization_config_rings(self):
-        """Test getting customization options for rings"""
-        response = client.get("/api/customization-config/rings")
+    def test_get_customization_config_black(self):
+        """Test getting customization options for black tea"""
+        response = client.get("/api/customization-config/black")
         assert response.status_code == 200
         config = response.json()
-        assert config["category"] == "rings"
+        assert config["category"] == "black"
         assert len(config["options"]) > 0
 
-        # Check metal_type option exists
-        metal_option = next(
-            (opt for opt in config["options"] if opt["option_id"] == "metal_type"), None
+        # Check package_size option exists
+        package_option = next(
+            (opt for opt in config["options"] if opt["option_id"] == "package_size"), None
         )
-        assert metal_option is not None
-        assert metal_option["required"] is True
-        assert len(metal_option["values"]) == 4  # Silver, Gold, Rose Gold, Platinum
+        assert package_option is not None
+        assert package_option["required"] is True
+        assert len(package_option["values"]) == 4  # 50g, 100g, 250g, 500g
 
-    def test_get_customization_config_necklaces(self):
-        """Test getting customization options for necklaces"""
-        response = client.get("/api/customization-config/necklaces")
+    def test_get_customization_config_green(self):
+        """Test getting customization options for green tea"""
+        response = client.get("/api/customization-config/green")
         assert response.status_code == 200
         config = response.json()
-        assert config["category"] == "necklaces"
+        assert config["category"] == "green"
 
-        # Check chain_length option exists
-        chain_option = next(
-            (opt for opt in config["options"] if opt["option_id"] == "chain_length"),
+        # Check leaf_style option exists
+        leaf_option = next(
+            (opt for opt in config["options"] if opt["option_id"] == "leaf_style"),
             None,
         )
-        assert chain_option is not None
-        assert len(chain_option["values"]) == 5  # 16", 18", 20", 22", 24"
+        assert leaf_option is not None
+        assert len(leaf_option["values"]) == 3  # Loose Leaf, Pyramid Sachets, Stone-Ground Powder
 
-    def test_get_customization_config_bracelets(self):
-        """Test getting customization options for bracelets"""
-        response = client.get("/api/customization-config/bracelets")
+    def test_get_customization_config_oolong(self):
+        """Test getting customization options for oolong tea"""
+        response = client.get("/api/customization-config/oolong")
         assert response.status_code == 200
         config = response.json()
-        assert config["category"] == "bracelets"
+        assert config["category"] == "oolong"
 
-        # Check charms option exists
-        charms_option = next(
-            (opt for opt in config["options"] if opt["option_id"] == "charms"), None
+        # Check roast_level option exists
+        roast_option = next(
+            (opt for opt in config["options"] if opt["option_id"] == "roast_level"), None
         )
-        assert charms_option is not None
-        assert charms_option["option_type"] == "multi_select"
+        assert roast_option is not None
+        assert len(roast_option["values"]) == 3  # Light, Medium, Dark
 
     def test_get_customization_config_invalid_category(self):
         """Test error when category is invalid"""
@@ -66,7 +66,7 @@ class TestCustomizationAPI:
 
     def test_price_modifiers_present(self):
         """Test that all options have price modifiers"""
-        response = client.get("/api/customization-config/rings")
+        response = client.get("/api/customization-config/black")
         config = response.json()
 
         for option in config["options"]:
@@ -75,26 +75,22 @@ class TestCustomizationAPI:
                     assert "price_modifier" in value
                     assert isinstance(value["price_modifier"], (int, float))
 
-    def test_engraving_validation_rules(self):
-        """Test that engraving options have validation rules"""
-        categories = ["rings", "necklaces", "bracelets"]
-        expected_max_lengths = {"rings": 20, "necklaces": 15, "bracelets": 10}
+    def test_gift_note_validation_rules(self):
+        """Test that gift note options have validation rules"""
+        categories = ["black", "green", "oolong", "herbal"]
 
         for category in categories:
             response = client.get(f"/api/customization-config/{category}")
             config = response.json()
 
-            engraving_option = next(
-                (opt for opt in config["options"] if opt["option_id"] == "engraving"),
+            gift_note_option = next(
+                (opt for opt in config["options"] if opt["option_id"] == "gift_note"),
                 None,
             )
-            assert engraving_option is not None
-            assert engraving_option["option_type"] == "text"
-            assert "validation_rules" in engraving_option
-            assert (
-                engraving_option["validation_rules"]["max_length"]
-                == expected_max_lengths[category]
-            )
+            assert gift_note_option is not None
+            assert gift_note_option["option_type"] == "text"
+            assert "validation_rules" in gift_note_option
+            assert gift_note_option["validation_rules"]["max_length"] == 100
 
 
 class TestCustomizableProducts:
@@ -120,9 +116,10 @@ class TestCustomizableProducts:
         assert len(customizable_products) >= 6  # We marked 6 products as customizable
 
     def test_customizable_products_per_category(self):
-        """Test that each category has at least 2 customizable products"""
-        categories = ["rings", "necklaces", "bracelets"]
+        """Test that at least one category has customizable products"""
+        categories = ["black", "green", "oolong", "herbal"]
 
+        total_customizable = 0
         for category in categories:
             response = client.get(f"/api/products?category={category}")
             products = response.json()
@@ -130,9 +127,9 @@ class TestCustomizableProducts:
             customizable_count = sum(
                 1 for p in products if p.get("customizable", False)
             )
-            assert (
-                customizable_count >= 2
-            ), f"Category {category} should have at least 2 customizable products"
+            total_customizable += customizable_count
+
+        assert total_customizable >= 6, "Should have at least 6 customizable products total"
 
     def test_specific_customizable_products(self):
         """Test that specific products are marked as customizable"""

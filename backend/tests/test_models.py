@@ -11,18 +11,18 @@ class TestProductModel:
         """Test creating a valid product"""
         product = Product(
             id=1,
-            name="Diamond Ring",
-            price=2999.99,
-            category="rings",
-            material="White Gold",
-            image="https://example.com/ring.jpg",
-            description="Beautiful diamond ring",
+            name="Dragon Well Green Tea",
+            price=42.00,
+            category="green",
+            material="China",
+            image="https://example.com/tea.jpg",
+            description="Premium hand-picked Longjing tea",
         )
         assert product.id == 1
-        assert product.name == "Diamond Ring"
-        assert product.price == 2999.99
-        assert product.category == "rings"
-        assert product.material == "White Gold"
+        assert product.name == "Dragon Well Green Tea"
+        assert product.price == 42.00
+        assert product.category == "green"
+        assert product.material == "China"
 
     def test_invalid_category(self):
         """Test that invalid category raises validation error"""
@@ -32,7 +32,7 @@ class TestProductModel:
                 name="Invalid Product",
                 price=100.0,
                 category="invalid_category",
-                material="Gold",
+                material="China",
                 image="https://example.com/image.jpg",
                 description="Test description",
             )
@@ -44,8 +44,8 @@ class TestProductModel:
                 id=1,
                 name="Invalid Product",
                 price=-100.0,
-                category="rings",
-                material="Gold",
+                category="green",
+                material="China",
                 image="https://example.com/image.jpg",
                 description="Test description",
             )
@@ -57,8 +57,8 @@ class TestProductModel:
                 id=1,
                 name="Invalid Product",
                 price=0,
-                category="rings",
-                material="Gold",
+                category="green",
+                material="China",
                 image="https://example.com/image.jpg",
                 description="Test description",
             )
@@ -70,8 +70,8 @@ class TestProductModel:
                 id=1,
                 name="",
                 price=100.0,
-                category="rings",
-                material="Gold",
+                category="green",
+                material="China",
                 image="https://example.com/image.jpg",
                 description="Test description",
             )
@@ -83,36 +83,36 @@ class TestProductModel:
                 id=1,
                 name="Test Product",
                 price=100.0,
-                category="rings",
-                material="Gold",
+                category="green",
+                material="China",
                 image="https://example.com/image.jpg",
                 description="",
             )
 
     def test_all_valid_categories(self):
         """Test all valid categories"""
-        valid_categories = ["rings", "necklaces", "bracelets"]
+        valid_categories = ["black", "green", "oolong", "herbal"]
         for category in valid_categories:
             product = Product(
                 id=1,
                 name="Test Product",
                 price=100.0,
                 category=category,
-                material="Gold",
+                material="China",
                 image="https://example.com/image.jpg",
                 description="Test description",
             )
             assert product.category == category
 
     def test_all_valid_materials(self):
-        """Test all valid materials"""
-        valid_materials = ["Silver", "Gold", "Rose Gold", "White Gold"]
+        """Test all valid origins"""
+        valid_materials = ["China", "Japan", "India", "Taiwan"]
         for material in valid_materials:
             product = Product(
                 id=1,
                 name="Test Product",
                 price=100.0,
-                category="rings",
+                category="green",
                 material=material,
                 image="https://example.com/image.jpg",
                 description="Test description",
@@ -120,14 +120,14 @@ class TestProductModel:
             assert product.material == material
 
     def test_invalid_material(self):
-        """Test that invalid material raises validation error"""
+        """Test that invalid origin raises validation error"""
         with pytest.raises(ValidationError):
             Product(
                 id=1,
                 name="Invalid Product",
                 price=100.0,
-                category="rings",
-                material="Platinum",
+                category="green",
+                material="France",
                 image="https://example.com/image.jpg",
                 description="Test description",
             )

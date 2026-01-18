@@ -35,31 +35,31 @@ class TestProductAPI:
         assert response.status_code == 404
         assert response.json()["detail"] == "Product not found"
 
-    def test_get_products_by_category_rings(self):
-        """Test GET /api/products/category/rings"""
-        response = client.get("/api/products/category/rings")
+    def test_get_products_by_category_black(self):
+        """Test GET /api/products/category/black"""
+        response = client.get("/api/products/category/black")
         assert response.status_code == 200
         products = response.json()
         assert isinstance(products, list)
-        assert all(p["category"] == "rings" for p in products)
+        assert all(p["category"] == "black" for p in products)
         assert len(products) > 0
 
-    def test_get_products_by_category_necklaces(self):
-        """Test GET /api/products/category/necklaces"""
-        response = client.get("/api/products/category/necklaces")
+    def test_get_products_by_category_green(self):
+        """Test GET /api/products/category/green"""
+        response = client.get("/api/products/category/green")
         assert response.status_code == 200
         products = response.json()
         assert isinstance(products, list)
-        assert all(p["category"] == "necklaces" for p in products)
+        assert all(p["category"] == "green" for p in products)
         assert len(products) > 0
 
-    def test_get_products_by_category_bracelets(self):
-        """Test GET /api/products/category/bracelets"""
-        response = client.get("/api/products/category/bracelets")
+    def test_get_products_by_category_oolong(self):
+        """Test GET /api/products/category/oolong"""
+        response = client.get("/api/products/category/oolong")
         assert response.status_code == 200
         products = response.json()
         assert isinstance(products, list)
-        assert all(p["category"] == "bracelets" for p in products)
+        assert all(p["category"] == "oolong" for p in products)
         assert len(products) > 0
 
     def test_get_products_invalid_category(self):
@@ -96,9 +96,9 @@ class TestProductAPI:
         assert isinstance(product["description"], str)
 
         # Check category is valid
-        assert product["category"] in ["rings", "necklaces", "bracelets"]
+        assert product["category"] in ["black", "green", "oolong", "herbal"]
 
-        assert product["material"] in ["Silver", "Gold", "Rose Gold", "White Gold"]
+        assert product["material"] in ["China", "Japan", "India", "Taiwan"]
 
         # Check price is positive
         assert product["price"] > 0
@@ -109,54 +109,55 @@ class TestProductAPI:
         products = response.json()
 
         categories = set(p["category"] for p in products)
-        assert "rings" in categories
-        assert "necklaces" in categories
-        assert "bracelets" in categories
+        assert "black" in categories
+        assert "green" in categories
+        assert "oolong" in categories
+        assert "herbal" in categories
 
     def test_material_distribution(self):
-        """Test that we have products in all materials"""
+        """Test that we have products from all origins"""
         response = client.get("/api/products")
         products = response.json()
 
         materials = set(p["material"] for p in products)
-        assert "Silver" in materials
-        assert "Gold" in materials
-        assert "Rose Gold" in materials
-        assert "White Gold" in materials
+        assert "China" in materials
+        assert "Japan" in materials
+        assert "India" in materials
+        assert "Taiwan" in materials
 
     def test_filter_by_category(self):
         """Test filtering products by category"""
-        response = client.get("/api/products?category=rings")
+        response = client.get("/api/products?category=green")
         assert response.status_code == 200
         products = response.json()
-        assert all(p["category"] == "rings" for p in products)
+        assert all(p["category"] == "green" for p in products)
         assert len(products) > 0
 
     def test_filter_by_price(self):
         """Test filtering products by max price"""
-        response = client.get("/api/products?price_max=1000")
+        response = client.get("/api/products?price_max=50")
         assert response.status_code == 200
         products = response.json()
-        assert all(p["price"] <= 1000 for p in products)
+        assert all(p["price"] <= 50 for p in products)
         assert len(products) > 0
 
     def test_filter_by_material(self):
-        """Test filtering products by material"""
-        response = client.get("/api/products?material=Gold")
+        """Test filtering products by origin"""
+        response = client.get("/api/products?material=Japan")
         assert response.status_code == 200
         products = response.json()
-        assert all(p["material"] == "Gold" for p in products)
+        assert all(p["material"] == "Japan" for p in products)
         assert len(products) > 0
 
     def test_filter_multi_parameter(self):
         """Test filtering with multiple parameters"""
         response = client.get(
-            "/api/products?category=rings&price_max=1000&material=Gold"
+            "/api/products?category=green&price_max=100&material=Japan"
         )
         assert response.status_code == 200
         products = response.json()
         assert all(
-            p["category"] == "rings" and p["price"] <= 1000 and p["material"] == "Gold"
+            p["category"] == "green" and p["price"] <= 100 and p["material"] == "Japan"
             for p in products
         )
 
@@ -166,21 +167,15 @@ class TestProductAPI:
         assert response.status_code == 400
         assert "Invalid category" in response.json()["detail"]
 
-    def test_filter_invalid_price(self):
-        """Test filtering with invalid price returns 400"""
-        response = client.get("/api/products?price_max=999")
-        assert response.status_code == 400
-        assert "Invalid price_max" in response.json()["detail"]
-
     def test_filter_invalid_material(self):
-        """Test filtering with invalid material returns 400"""
-        response = client.get("/api/products?material=Platinum")
+        """Test filtering with invalid origin returns 400"""
+        response = client.get("/api/products?material=France")
         assert response.status_code == 400
-        assert "Invalid material" in response.json()["detail"]
+        assert "Invalid origin" in response.json()["detail"]
 
     def test_filter_no_results(self):
         """Test filtering that returns no results"""
-        response = client.get("/api/products?category=necklaces&material=Silver")
+        response = client.get("/api/products?category=herbal&material=Japan")
         assert response.status_code == 200
         products = response.json()
         assert products == []

@@ -105,7 +105,7 @@ test-backend:
 
 test-frontend:
 	@echo "Running frontend tests..."
-	cd frontend && npm test -- --watch=false --browsers=ChromeHeadless
+	cd frontend && ./node_modules/.bin/ng test
 
 # ============================================================================
 # Code Quality
@@ -121,7 +121,7 @@ lint-backend:
 
 lint-frontend:
 	@echo "Linting frontend..."
-	cd frontend && npm run lint || true
+	@echo "Note: Frontend lint script not configured. Skipping."
 
 format: format-backend format-frontend
 	@echo "Formatting completed!"

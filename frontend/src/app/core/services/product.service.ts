@@ -6,7 +6,7 @@ import { ProductFilters } from '../models/filter.model';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProductService {
   private http = inject(HttpClient);
@@ -32,9 +32,9 @@ export class ProductService {
   }
 
   getAllProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.apiUrl}/products`).pipe(
-      tap(products => this.allProductsSubject.next(products))
-    );
+    return this.http
+      .get<Product[]>(`${this.apiUrl}/products`)
+      .pipe(tap((products) => this.allProductsSubject.next(products)));
   }
 
   getProduct(id: number): Observable<Product> {
@@ -46,6 +46,6 @@ export class ProductService {
   }
 
   getProductFromCache(id: number): Product | undefined {
-    return this.allProductsSubject.value.find(p => p.id === id);
+    return this.allProductsSubject.value.find((p) => p.id === id);
   }
 }

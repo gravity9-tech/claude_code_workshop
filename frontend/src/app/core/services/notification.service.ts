@@ -8,7 +8,7 @@ export interface Notification {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NotificationService {
   private notificationsSubject = new BehaviorSubject<Notification[]>([]);
@@ -30,7 +30,7 @@ export class NotificationService {
   }
 
   remove(id: number): void {
-    const notifications = this.notificationsSubject.value.filter(n => n.id !== id);
+    const notifications = this.notificationsSubject.value.filter((n) => n.id !== id);
     this.notificationsSubject.next(notifications);
   }
 

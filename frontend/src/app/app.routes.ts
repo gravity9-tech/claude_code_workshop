@@ -5,5 +5,5 @@ import { WishlistComponent } from './features/wishlist/wishlist.component';
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'wishlist', component: WishlistComponent },
-  { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: '' },
 ];

@@ -1,10 +1,11 @@
-import { Component, OnInit, inject, ViewChild } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../../core/services/product.service';
 import { CartService } from '../../core/services/cart.service';
 import { Product } from '../../core/models/product.model';
 import { ProductFilters } from '../../core/models/filter.model';
+import { CartItem } from '../../core/models/cart-item.model';
 import { HeroSectionComponent } from './components/hero-section/hero-section.component';
 import { FilterSectionComponent } from './components/filter-section/filter-section.component';
 import { ProductGridComponent } from './components/product-grid/product-grid.component';
@@ -20,7 +21,7 @@ import { CustomizationModalComponent } from '../customization/customization-moda
     FilterSectionComponent,
     ProductGridComponent,
     LoadingSpinnerComponent,
-    CustomizationModalComponent
+    CustomizationModalComponent,
   ],
   template: `
     <main class="container mx-auto px-4 py-8">
@@ -31,7 +32,8 @@ import { CustomizationModalComponent } from '../customization/customization-moda
         [resultCount]="filteredProducts.length"
         [totalCount]="allProducts.length"
         (filterChange)="onFilterChange($event)"
-        (clearFilters)="onClearFilters()">
+        (clearFilters)="onClearFilters()"
+      >
       </app-filter-section>
 
       @if (loading) {
@@ -40,7 +42,8 @@ import { CustomizationModalComponent } from '../customization/customization-moda
         <app-product-grid
           [products]="filteredProducts"
           (addToCart)="onAddToCart($event)"
-          (customize)="onCustomize($event)">
+          (customize)="onCustomize($event)"
+        >
         </app-product-grid>
       }
     </main>
@@ -48,10 +51,11 @@ import { CustomizationModalComponent } from '../customization/customization-moda
     <app-customization-modal
       [product]="selectedProduct"
       [isOpen]="customizationOpen"
-      (close)="closeCustomization()"
-      (addToCart)="onCustomizedAddToCart($event)">
+      (closeModal)="closeCustomization()"
+      (addToCart)="onCustomizedAddToCart($event)"
+    >
     </app-customization-modal>
-  `
+  `,
 })
 export class HomeComponent implements OnInit {
   private productService = inject(ProductService);
@@ -66,7 +70,7 @@ export class HomeComponent implements OnInit {
   filters: ProductFilters = {
     category: null,
     priceMax: null,
-    material: null
+    material: null,
   };
 
   selectedProduct: Product | null = null;
@@ -99,7 +103,7 @@ export class HomeComponent implements OnInit {
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams,
-      queryParamsHandling: 'merge'
+      queryParamsHandling: 'merge',
     });
   }
 
@@ -115,7 +119,7 @@ export class HomeComponent implements OnInit {
       error: (error) => {
         console.error('Error loading products:', error);
         this.loading = false;
-      }
+      },
     });
   }
 
@@ -126,7 +130,7 @@ export class HomeComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error filtering products:', error);
-      }
+      },
     });
   }
 
@@ -145,7 +149,7 @@ export class HomeComponent implements OnInit {
   filterByCategory(category: string): void {
     this.filters = {
       ...this.filters,
-      category: category === 'all' ? null : category
+      category: category === 'all' ? null : category,
     };
     this.updateUrl();
     this.applyFilters();
@@ -167,7 +171,7 @@ export class HomeComponent implements OnInit {
     this.selectedProduct = null;
   }
 
-  onCustomizedAddToCart(item: any): void {
+  onCustomizedAddToCart(item: CartItem): void {
     this.cartService.addItem(item);
     this.closeCustomization();
   }

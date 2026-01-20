@@ -19,12 +19,13 @@ import { ProductCardComponent } from '../../../../shared/components/product-card
             [product]="product"
             (addToCart)="addToCart.emit($event)"
             (customize)="customize.emit($event)"
-            (wishlistToggle)="wishlistToggle.emit($event)">
+            (wishlistToggle)="wishlistToggle.emit($event)"
+          >
           </app-product-card>
         }
       </div>
     }
-  `
+  `,
 })
 export class ProductGridComponent {
   @Input() products: Product[] = [];

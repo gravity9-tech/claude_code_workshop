@@ -1,7 +1,8 @@
 import { Product } from './product.model';
 import { CustomizationSummaryItem } from './customization.model';
 
-export interface CartItem extends Product {
+export interface CartItem extends Omit<Product, 'id'> {
+  id: number | string; // string for customized items
   quantity: number;
   isCustomized?: boolean;
   customizationSummary?: CustomizationSummaryItem[];

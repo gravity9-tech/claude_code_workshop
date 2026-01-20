@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
     HeaderComponent,
     FooterComponent,
     CartSidebarComponent,
-    NotificationToastComponent
+    NotificationToastComponent,
   ],
   template: `
     <div class="min-h-screen flex flex-col bg-gray-50 font-sans">
@@ -32,7 +32,7 @@ import { Router } from '@angular/router';
 
     <app-cart-sidebar></app-cart-sidebar>
     <app-notification-toast></app-notification-toast>
-  `
+  `,
 })
 export class AppComponent implements OnInit {
   private productService = inject(ProductService);

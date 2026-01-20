@@ -4,15 +4,14 @@ import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import {
   CustomizationConfig,
-  CustomizationOption,
   CustomizationSelection,
   PriceBreakdown,
-  CustomizationSummaryItem
+  CustomizationSummaryItem,
 } from '../models/customization.model';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CustomizationService {
   private http = inject(HttpClient);
@@ -25,9 +24,9 @@ export class CustomizationService {
       return of(this.configCache[category]);
     }
 
-    return this.http.get<CustomizationConfig>(`${this.apiUrl}/customization-config/${category}`).pipe(
-      tap(config => this.configCache[category] = config)
-    );
+    return this.http
+      .get<CustomizationConfig>(`${this.apiUrl}/customization-config/${category}`)
+      .pipe(tap((config) => (this.configCache[category] = config)));
   }
 
   calculatePrice(
@@ -36,13 +35,13 @@ export class CustomizationService {
     config: CustomizationConfig
   ): PriceBreakdown {
     const breakdown: { label: string; amount: number }[] = [
-      { label: 'Base Price', amount: basePrice }
+      { label: 'Base Price', amount: basePrice },
     ];
 
     let customizationCost = 0;
 
     for (const [optionId, selection] of Object.entries(customizations)) {
-      const option = config.options.find(opt => opt.option_id === optionId);
+      const option = config.options.find((opt) => opt.option_id === optionId);
       if (!option) continue;
 
       if (option.option_type === 'text') {
@@ -52,7 +51,7 @@ export class CustomizationService {
           customizationCost += price;
           breakdown.push({
             label: option.display_name,
-            amount: price
+            amount: price,
           });
         }
       } else if (option.option_type === 'multi_select') {
@@ -64,18 +63,18 @@ export class CustomizationService {
             customizationCost += totalPrice;
             breakdown.push({
               label: `${option.display_name} (${selection.value.length})`,
-              amount: totalPrice
+              amount: totalPrice,
             });
           }
         }
       } else {
         // Single select
-        const optionValue = option.values.find(v => v.value === selection.value);
+        const optionValue = option.values.find((v) => v.value === selection.value);
         if (optionValue && optionValue.price_modifier > 0) {
           customizationCost += optionValue.price_modifier;
           breakdown.push({
             label: optionValue.display_name,
-            amount: optionValue.price_modifier
+            amount: optionValue.price_modifier,
           });
         }
       }
@@ -85,7 +84,7 @@ export class CustomizationService {
       basePrice,
       customizationCost,
       totalPrice: basePrice + customizationCost,
-      breakdown
+      breakdown,
     };
   }
 
@@ -97,9 +96,19 @@ export class CustomizationService {
     const errors: string[] = [];
 
     // Get options for current step
-    const stepOptions = config.options.filter(opt => {
+    const stepOptions = config.options.filter((opt) => {
       if (stepNumber === 1) return opt.option_id === 'package_size';
-      if (stepNumber === 2) return ['brew_strength', 'add_ons', 'leaf_style', 'accessories', 'roast_level', 'brewing_vessel', 'blend_type', 'extras'].includes(opt.option_id);
+      if (stepNumber === 2)
+        return [
+          'brew_strength',
+          'add_ons',
+          'leaf_style',
+          'accessories',
+          'roast_level',
+          'brewing_vessel',
+          'blend_type',
+          'extras',
+        ].includes(opt.option_id);
       if (stepNumber === 3) return opt.option_id === 'gift_note';
       return false;
     });
@@ -107,7 +116,11 @@ export class CustomizationService {
     for (const option of stepOptions) {
       if (option.required) {
         const selection = customizations[option.option_id];
-        if (!selection || !selection.value || (Array.isArray(selection.value) && selection.value.length === 0)) {
+        if (
+          !selection ||
+          !selection.value ||
+          (Array.isArray(selection.value) && selection.value.length === 0)
+        ) {
           errors.push(`${option.display_name} is required`);
         }
       }
@@ -122,11 +135,16 @@ export class CustomizationService {
       }
 
       // Validate multi-select limits
-      if (option.option_type === 'multi_select' && customizations[option.option_id]?.value) {
+      if (
+        option.option_type === 'multi_select' &&
+        customizations[option.option_id]?.value
+      ) {
         const selections = customizations[option.option_id].value as string[];
         const maxSelections = option.validation_rules?.max_selections;
         if (maxSelections && selections.length > maxSelections) {
-          errors.push(`${option.display_name}: Maximum ${maxSelections} selections allowed`);
+          errors.push(
+            `${option.display_name}: Maximum ${maxSelections} selections allowed`
+          );
         }
       }
     }
@@ -141,7 +159,7 @@ export class CustomizationService {
     const summary: CustomizationSummaryItem[] = [];
 
     for (const [optionId, selection] of Object.entries(customizations)) {
-      const option = config.options.find(opt => opt.option_id === optionId);
+      const option = config.options.find((opt) => opt.option_id === optionId);
       if (!option || !selection.value) continue;
 
       if (option.option_type === 'text') {
@@ -149,28 +167,28 @@ export class CustomizationService {
           summary.push({
             label: option.display_name,
             value: `"${selection.value}"`,
-            price: option.validation_rules?.price || 0
+            price: option.validation_rules?.price || 0,
           });
         }
       } else if (option.option_type === 'multi_select') {
         if (Array.isArray(selection.value) && selection.value.length > 0) {
-          const displayNames = selection.value.map(val => {
-            const optVal = option.values.find(v => v.value === val);
+          const displayNames = selection.value.map((val) => {
+            const optVal = option.values.find((v) => v.value === val);
             return optVal ? optVal.display_name : val;
           });
           summary.push({
             label: option.display_name,
             value: displayNames.join(', '),
-            price: selection.price || 0
+            price: selection.price || 0,
           });
         }
       } else {
-        const optionValue = option.values.find(v => v.value === selection.value);
+        const optionValue = option.values.find((v) => v.value === selection.value);
         if (optionValue) {
           summary.push({
             label: option.display_name,
             value: optionValue.display_name,
-            price: optionValue.price_modifier
+            price: optionValue.price_modifier,
           });
         }
       }

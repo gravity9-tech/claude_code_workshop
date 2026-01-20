@@ -10,7 +10,7 @@ import { Component } from '@angular/core';
         <p class="text-gray-400">Premium Tea Collection &copy; {{ currentYear }}</p>
       </div>
     </footer>
-  `
+  `,
 })
 export class FooterComponent {
   currentYear = new Date().getFullYear();

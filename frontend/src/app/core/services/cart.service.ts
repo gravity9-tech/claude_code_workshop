@@ -7,7 +7,7 @@ import { NotificationService } from './notification.service';
 const CART_STORAGE_KEY = 'pandora_cart';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CartService {
   private notificationService = inject(NotificationService);
@@ -36,17 +36,19 @@ export class CartService {
     if ('isCustomized' in product && product.isCustomized) {
       items.push({
         ...product,
-        quantity: 1
+        quantity: 1,
       } as CartItem);
     } else {
-      const existingItem = items.find(item => item.id === product.id && !item.isCustomized);
+      const existingItem = items.find(
+        (item) => item.id === product.id && !item.isCustomized
+      );
 
       if (existingItem) {
         existingItem.quantity += 1;
       } else {
         items.push({
           ...product,
-          quantity: 1
+          quantity: 1,
         } as CartItem);
       }
     }
@@ -57,7 +59,7 @@ export class CartService {
   }
 
   removeItem(productId: number | string): void {
-    const items = this.itemsSubject.value.filter(item => item.id !== productId);
+    const items = this.itemsSubject.value.filter((item) => item.id !== productId);
     this.itemsSubject.next(items);
     this.saveCart();
   }
@@ -68,7 +70,7 @@ export class CartService {
       return;
     }
 
-    const items = this.itemsSubject.value.map(item => {
+    const items = this.itemsSubject.value.map((item) => {
       if (item.id === productId) {
         return { ...item, quantity };
       }
@@ -87,10 +89,7 @@ export class CartService {
   }
 
   getItemCount(): number {
-    return this.itemsSubject.value.reduce(
-      (count, item) => count + item.quantity,
-      0
-    );
+    return this.itemsSubject.value.reduce((count, item) => count + item.quantity, 0);
   }
 
   openCart(): void {

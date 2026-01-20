@@ -7,7 +7,7 @@ const DARK_MODE_KEY = 'pandora_dark_mode';
 export type Theme = 'light' | 'dark';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ThemeService {
   private platformId = inject(PLATFORM_ID);
@@ -36,13 +36,15 @@ export class ThemeService {
   private listenToSystemPreference(): void {
     if (!this.isBrowser) return;
 
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-      if (!localStorage.getItem(DARK_MODE_KEY)) {
-        const newTheme = e.matches ? 'dark' : 'light';
-        this.applyTheme(newTheme);
-        this.themeSubject.next(newTheme);
-      }
-    });
+    window
+      .matchMedia('(prefers-color-scheme: dark)')
+      .addEventListener('change', (e) => {
+        if (!localStorage.getItem(DARK_MODE_KEY)) {
+          const newTheme = e.matches ? 'dark' : 'light';
+          this.applyTheme(newTheme);
+          this.themeSubject.next(newTheme);
+        }
+      });
   }
 
   private applyTheme(theme: Theme): void {

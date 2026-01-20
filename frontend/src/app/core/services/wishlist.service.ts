@@ -7,7 +7,7 @@ import { NotificationService } from './notification.service';
 const WISHLIST_STORAGE_KEY = 'pandora_wishlist';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class WishlistService {
   private cartService = inject(CartService);
@@ -28,7 +28,7 @@ export class WishlistService {
   }
 
   isInWishlist(productId: number): boolean {
-    return this.itemsSubject.value.some(item => item.id === productId);
+    return this.itemsSubject.value.some((item) => item.id === productId);
   }
 
   addItem(product: Product): boolean {
@@ -43,7 +43,7 @@ export class WishlistService {
   }
 
   removeItem(productId: number): void {
-    const items = this.itemsSubject.value.filter(item => item.id !== productId);
+    const items = this.itemsSubject.value.filter((item) => item.id !== productId);
     this.itemsSubject.next(items);
     this.saveWishlist();
   }
@@ -59,7 +59,7 @@ export class WishlistService {
   }
 
   moveToCart(productId: number): void {
-    const product = this.itemsSubject.value.find(item => item.id === productId);
+    const product = this.itemsSubject.value.find((item) => item.id === productId);
     if (product) {
       this.cartService.addItem(product);
       this.removeItem(productId);

@@ -121,7 +121,7 @@ lint-backend:
 
 lint-frontend:
 	@echo "Linting frontend..."
-	@echo "Note: Frontend lint script not configured. Skipping."
+	cd frontend && npm run lint
 
 format: format-backend format-frontend
 	@echo "Formatting completed!"
@@ -133,7 +133,7 @@ format-backend:
 
 format-frontend:
 	@echo "Formatting frontend..."
-	@# Add prettier or other formatter if configured
+	cd frontend && npm run format
 
 # ============================================================================
 # Cleanup

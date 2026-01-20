@@ -1,15 +1,15 @@
-# Pandora - Luxury Jewelry E-Commerce
+# Tea Store Demo
 
-A full-stack luxury jewelry e-commerce application with an Angular frontend and FastAPI backend.
+A full-stack premium tea e-commerce application with an Angular frontend and FastAPI backend.
 
 ## Features
 
-- **Modern UI** - Elegant design with Tailwind CSS featuring a luxury gold/black color scheme
-- **Responsive Design** - Mobile-first design that works beautifully on all devices
+- **Modern UI** - Clean design with Tailwind CSS
+- **Responsive Design** - Mobile-first design that works on all devices
 - **Shopping Cart** - Full-featured cart with add/remove items and quantity management
-- **Wishlist** - Save favorite items for later
-- **Product Filtering** - Filter by category, price range, and material
-- **Product Customization** - 4-step wizard for customizing jewelry (metal, details, engraving)
+- **Wishlist** - Save favorite teas for later
+- **Product Filtering** - Filter by category, price range, and origin
+- **Product Customization** - Multi-step wizard for customizing select teas
 - **Dark Mode** - Toggle between light and dark themes
 - **Persistent State** - Cart and wishlist saved in localStorage
 
@@ -30,7 +30,7 @@ A full-stack luxury jewelry e-commerce application with an Angular frontend and 
 ## Project Structure
 
 ```
-pandora-demo/
+tea-store-demo/
 ├── backend/                    # FastAPI Python backend
 │   ├── app/
 │   │   ├── api/
@@ -141,9 +141,9 @@ The application will be available at:
 
 ### Query Parameters for `/api/products`
 
-- `category` - Filter by category (rings, necklaces, bracelets)
+- `category` - Filter by category (green, black, oolong, herbal)
 - `price_max` - Maximum price filter
-- `material` - Filter by material (Silver, Gold, Rose Gold, White Gold)
+- `material` - Filter by origin (China, Japan, India, Taiwan)
 
 ## Frontend Architecture
 
@@ -152,13 +152,13 @@ The application will be available at:
 - **CartService** - Shopping cart state management
 - **WishlistService** - Wishlist state management
 - **ThemeService** - Dark/light mode toggle
-- **CustomizationService** - Product customization logic
+- **CustomizationService** - Tea customization logic
 - **NotificationService** - Toast notifications
 
 ### Feature Modules
-- **Home** - Product listing with hero, filters, and grid
-- **Wishlist** - Saved items page
-- **Customization** - 4-step customization modal
+- **Home** - Tea listing with hero, filters, and grid
+- **Wishlist** - Saved teas page
+- **Customization** - Multi-step customization modal
 
 ### Shared Components
 - Header, Footer, ProductCard, CartSidebar, LoadingSpinner, NotificationToast
@@ -181,19 +181,19 @@ cd backend && pytest -v
 
 ## Product Data
 
-The application includes 15 luxury jewelry products:
-- **5 Rings** - Various styles with customization options
-- **5 Necklaces** - Chains, pendants, and tennis necklaces
-- **5 Bracelets** - Bangles, cuffs, and charm bracelets
+The application includes 15 premium teas:
+- **5 Green Teas** - Including Dragon Well, Matcha, Sencha, Jasmine Pearl, and Gyokuro
+- **4 Black Teas** - Darjeeling, Assam, Earl Grey, and Pu-erh
+- **3 Oolong Teas** - High Mountain, Tie Guan Yin, and Oriental Beauty
+- **3 Herbal Teas** - Chamomile, Peppermint, and Rooibos
 
-Products range from $899 to $3,299 with materials including Silver, Gold, Rose Gold, and White Gold.
+Teas range from $18 to $85 with origins including China, Japan, India, and Taiwan.
 
 ## Development Notes
 
 - Frontend proxies `/api` requests to backend during development
 - CORS is configured for `localhost:4321`
 - State is persisted to localStorage (cart, wishlist, theme)
-- Tailwind CSS with custom theme colors (gold, dark-gold, luxury)
 
 ---
 

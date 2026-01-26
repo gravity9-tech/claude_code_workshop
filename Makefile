@@ -1,7 +1,7 @@
 # Pandora Jewelry Store - Makefile
 # FastAPI Backend + Angular Frontend
 
-.PHONY: help install install-backend install-frontend dev start start-backend start-frontend build test test-backend test-frontend lint format clean
+.PHONY: help install install-backend install-frontend dev stop start start-backend start-frontend build test test-backend test-frontend lint format clean
 
 # Virtual environment path
 VENV := backend/venv
@@ -19,6 +19,7 @@ help:
 	@echo ""
 	@echo "Development:"
 	@echo "  make dev              - Start both backend and frontend (parallel)"
+	@echo "  make stop             - Stop services on ports 8765 and 4321"
 	@echo "  make start-backend    - Start backend server only (port 8765)"
 	@echo "  make start-frontend   - Start frontend dev server only (port 4321)"
 	@echo ""
@@ -63,14 +64,14 @@ install-frontend:
 
 # Start both services in parallel
 # Note: This uses background processes - use Ctrl+C to stop both
-dev:
+dev: stop
 	@echo "Starting development servers..."
 	@echo "Backend: http://localhost:8765"
 	@echo "Frontend: http://localhost:4321"
 	@echo "API Docs: http://localhost:8765/docs"
 	@echo ""
 	@echo "Press Ctrl+C to stop both servers"
-	@trap 'kill 0' INT; \
+	@trap 'kill -9 $$(lsof -t -i :8765) $$(lsof -t -i :4321) 2>/dev/null; exit' INT TERM EXIT; \
 	(cd backend && ../$(VENV)/bin/python main.py) & \
 	(cd frontend && npm start) & \
 	wait
@@ -134,6 +135,16 @@ format-backend:
 format-frontend:
 	@echo "Formatting frontend..."
 	cd frontend && npm run format
+
+# ============================================================================
+# Stop Services
+# ============================================================================
+
+stop:
+	@echo "Stopping services on ports 8765 and 4321..."
+	@kill -9 $$(lsof -t -i :8765) 2>/dev/null && echo "Stopped backend (port 8765)" || echo "No process on port 8765"
+	@kill -9 $$(lsof -t -i :4321) 2>/dev/null && echo "Stopped frontend (port 4321)" || echo "No process on port 4321"
+	@echo "Done!"
 
 # ============================================================================
 # Cleanup

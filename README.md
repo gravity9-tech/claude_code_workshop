@@ -69,11 +69,31 @@ tea-store-demo/
 
 ### Prerequisites
 
-- Python 3.12+
+- Python 3.9+
 - Node.js 18+
 - npm
 
-### Installation
+> **Note for Windows users:** The shell scripts (`start.sh`, `test.sh`) require WSL, Git Bash, or a similar bash environment.
+
+### Quick Start
+
+The easiest way to run the application:
+
+```bash
+./start.sh
+```
+
+This will:
+1. Create a Python virtual environment (if needed)
+2. Install backend dependencies
+3. Install frontend dependencies
+4. Start both services
+
+Press `Ctrl+C` to stop all services.
+
+### Manual Installation
+
+If you prefer to set up manually:
 
 ```bash
 # Backend
@@ -90,7 +110,7 @@ npm install
 npm install
 ```
 
-### Running the Application
+### Running Manually
 
 ```bash
 # Backend (port 8765)
@@ -98,7 +118,7 @@ cd backend
 source venv/bin/activate
 python main.py
 
-# Frontend (port 4321)
+# Frontend (port 4321) - in a separate terminal
 cd frontend
 npm run dev
 ```
@@ -174,6 +194,11 @@ npx playwright test
 npx playwright test --headed  # With visible browser
 npx playwright test --ui      # With Playwright UI
 ```
+
+> **Note for Linux users:** Playwright may require system dependencies. If browser installation fails, run:
+> ```bash
+> npx playwright install-deps chromium
+> ```
 
 ## Product Data
 

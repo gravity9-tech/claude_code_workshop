@@ -1,6 +1,6 @@
 # Tea Store Demo
 
-A full-stack premium tea e-commerce application with an Angular frontend and FastAPI backend.
+A full-stack premium tea e-commerce application with a React frontend and FastAPI backend.
 
 ## Features
 
@@ -22,10 +22,12 @@ A full-stack premium tea e-commerce application with an Angular frontend and Fas
 - **Pytest** for testing
 
 ### Frontend
-- **Angular 19** (standalone components)
-- **TypeScript**
+- **React 19** with **TypeScript**
+- **Vite 7** for build tooling
 - **Tailwind CSS 4**
-- **RxJS** for state management
+- **React Context** for state management
+- **Vitest** for unit testing
+- **Playwright** for E2E testing
 
 ## Project Structure
 
@@ -40,25 +42,25 @@ tea-store-demo/
 │   │   ├── mock_data.py        # Product data
 │   │   └── customization_config.py
 │   ├── tests/
-│   ├── scripts/
 │   ├── main.py                 # Uvicorn entry point
 │   ├── requirements.txt
 │   └── pytest.ini
 │
-├── frontend/                   # Angular frontend
+├── frontend/                   # React frontend
 │   ├── src/
-│   │   ├── app/
-│   │   │   ├── core/           # Services & models
-│   │   │   ├── shared/         # Reusable components
-│   │   │   └── features/       # Feature modules
-│   │   ├── environments/
-│   │   └── styles.css
-│   ├── angular.json
+│   │   ├── components/
+│   │   │   ├── features/       # Feature components
+│   │   │   └── shared/         # Reusable components
+│   │   ├── contexts/           # React Context providers
+│   │   ├── services/           # API services
+│   │   ├── types/              # TypeScript types
+│   │   └── test/               # Test utilities
 │   ├── package.json
-│   ├── proxy.conf.json
-│   └── tailwind.config.js
+│   └── vite.config.ts
 │
-├── Makefile                    # Development commands
+├── e2e/                        # Playwright E2E tests
+├── test.sh                     # Test runner script
+├── playwright.config.ts
 ├── .gitignore
 └── README.md
 ```
@@ -73,61 +75,38 @@ tea-store-demo/
 
 ### Installation
 
-Install all dependencies:
-
 ```bash
-make install
-```
-
-Or install separately:
-
-```bash
-# Backend (creates venv and installs dependencies)
-make install-backend
+# Backend
+cd backend
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
 
 # Frontend
-cd frontend && npm install
-```
+cd frontend
+npm install
 
-The backend uses a virtual environment located at `backend/venv/`. The Makefile automatically creates and manages this environment.
+# E2E tests (from project root)
+npm install
+```
 
 ### Running the Application
 
-Start both backend and frontend in development mode:
-
-```bash
-make dev
-```
-
-Or run them separately:
-
 ```bash
 # Backend (port 8765)
-make start-backend
+cd backend
+source venv/bin/activate
+python main.py
 
 # Frontend (port 4321)
-make start-frontend
+cd frontend
+npm run dev
 ```
 
 The application will be available at:
 - **Frontend**: http://localhost:4321
 - **Backend API**: http://localhost:8765
 - **API Docs**: http://localhost:8765/docs
-
-## Makefile Commands
-
-| Command | Description |
-|---------|-------------|
-| `make install` | Install all dependencies |
-| `make dev` | Start both servers in parallel |
-| `make start-backend` | Start backend only (port 8765) |
-| `make start-frontend` | Start frontend only (port 4321) |
-| `make build` | Build frontend for production |
-| `make test` | Run all tests |
-| `make test-backend` | Run backend tests only |
-| `make lint` | Run linters |
-| `make clean` | Remove build artifacts |
-| `make clean-all` | Remove venv and node_modules |
 
 ## API Endpoints
 
@@ -147,36 +126,53 @@ The application will be available at:
 
 ## Frontend Architecture
 
-### Core Services
-- **ProductService** - API calls for products
-- **CartService** - Shopping cart state management
-- **WishlistService** - Wishlist state management
-- **ThemeService** - Dark/light mode toggle
-- **CustomizationService** - Tea customization logic
-- **NotificationService** - Toast notifications
+### Context Providers
+- **CartContext** - Shopping cart state with localStorage persistence
+- **WishlistContext** - Wishlist state with localStorage persistence
+- **ThemeContext** - Dark/light mode with system preference detection
+- **NotificationContext** - Toast notifications
 
-### Feature Modules
-- **Home** - Tea listing with hero, filters, and grid
-- **Wishlist** - Saved teas page
-- **Customization** - Multi-step customization modal
+### Services
+- **productService** - API calls for products
+- **customizationService** - Tea customization API calls
 
-### Shared Components
-- Header, Footer, ProductCard, CartSidebar, LoadingSpinner, NotificationToast
+### Components
+- **features/** - Home, Wishlist, Customization modal
+- **shared/** - Header, Footer, ProductCard, CartSidebar, LoadingSpinner
 
 ## Testing
 
-Run all tests:
+### Test Runner Script
+
+The `test.sh` script runs all tests:
 
 ```bash
-make test
+./test.sh              # Run backend + frontend unit tests
+./test.sh --e2e        # Include E2E tests
+./test.sh --e2e --headed  # Run E2E tests with visible browser
+./test.sh --coverage   # Run with coverage reports
+./test.sh --help       # Show all options
 ```
 
-Backend tests only:
+| Option | Description |
+|--------|-------------|
+| `--e2e` | Run E2E tests (Playwright) |
+| `--headed` | Run E2E tests in headed mode (visible browser) |
+| `--coverage` | Run tests with coverage reports |
+
+### Running Tests Individually
 
 ```bash
-make test-backend
-# or
+# Backend tests
 cd backend && pytest -v
+
+# Frontend unit tests
+cd frontend && npm run test
+
+# E2E tests
+npx playwright test
+npx playwright test --headed  # With visible browser
+npx playwright test --ui      # With Playwright UI
 ```
 
 ## Product Data
@@ -197,4 +193,4 @@ Teas range from $18 to $85 with origins including China, Japan, India, and Taiwa
 
 ---
 
-**Built with Angular, FastAPI, and Tailwind CSS**
+**Built with React, FastAPI, and Tailwind CSS**

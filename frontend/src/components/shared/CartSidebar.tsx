@@ -27,15 +27,17 @@ export function CartSidebar() {
 
       {/* Cart Sidebar */}
       <div
+        data-testid="cart-sidebar"
+        aria-hidden={!isOpen}
         className={`fixed inset-y-0 right-0 w-full md:w-96 bg-white shadow-2xl transform transition-transform duration-300 z-50 ${
-          isOpen ? 'translate-x-0' : 'translate-x-full'
+          isOpen ? 'translate-x-0' : 'translate-x-full invisible'
         }`}
       >
         <div className="h-full flex flex-col">
           {/* Cart Header */}
           <div className="bg-luxury text-white p-6 flex justify-between items-center">
             <h3 className="text-xl font-bold">Shopping Cart</h3>
-            <button onClick={closeCart} className="text-white hover:text-gold">
+            <button data-testid="close-cart" onClick={closeCart} className="text-white hover:text-gold">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
@@ -96,6 +98,7 @@ export function CartSidebar() {
                           <span className="text-sm text-gray-600">Qty: {item.quantity}</span>
                         )}
                         <button
+                          data-testid="remove-item"
                           onClick={() => removeItem(item.id)}
                           className="ml-auto text-red-500 hover:text-red-700"
                         >

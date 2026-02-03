@@ -24,7 +24,7 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
   };
 
   return (
-    <div className="product-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
+    <div data-testid="product-card" className="product-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
       <div className="relative overflow-hidden group">
         <img
           src={product.image}
@@ -36,7 +36,9 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
           {getCategoryLabel(product.category)}
         </div>
         <button
+          data-testid="wishlist-button"
           onClick={handleWishlistToggle}
+          aria-label={inWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
           className={`absolute top-2 left-2 bg-white rounded-full p-2 shadow-md hover:scale-110 transition-all ${
             inWishlist ? 'text-red-500' : 'text-gray-400'
           }`}

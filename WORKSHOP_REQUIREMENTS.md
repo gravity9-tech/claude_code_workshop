@@ -6,20 +6,19 @@ Complete these setup steps **before** the workshop to ensure you're ready to par
 
 | Software | Minimum Version | Verification Command |
 |----------|-----------------|---------------------|
-| Python | 3.12+ | `python3 --version` |
+| Python | 3.9+ | `python3 --version` |
 | Node.js | 18+ | `node --version` |
 | npm | 9+ | `npm --version` |
 | Git | Any recent | `git --version` |
-| Make | Any | `make --version` |
 | Claude Code | 2.1+ | `claude --version` |
 
 ## Setup Checklist
 
-### 1. Python 3.12+
+### 1. Python 3.9+
 
 - **macOS**: `brew install python@3.12`
-- **Windows**: Download from [python.org](https://www.python.org/downloads/) or `choco install python --version=3.12`
-- **Linux**: `sudo apt install python3.12` (Ubuntu/Debian) or equivalent
+- **Windows**: Download from [python.org](https://www.python.org/downloads/) or `choco install python`
+- **Linux**: `sudo apt install python3` (Ubuntu/Debian) or equivalent
 
 ### 2. Node.js 18+
 
@@ -33,13 +32,7 @@ Complete these setup steps **before** the workshop to ensure you're ready to par
 - **Windows**: Download from [git-scm.com](https://git-scm.com/)
 - **Linux**: `sudo apt install git`
 
-### 4. Make
-
-- **macOS**: Pre-installed with Xcode Command Line Tools (`xcode-select --install`)
-- **Windows**: `choco install make` or use WSL2
-- **Linux**: `sudo apt install build-essential`
-
-### 5. Claude Code 2.1+
+### 4. Claude Code 2.1+
 
 Install Claude Code CLI:
 
@@ -60,7 +53,7 @@ If you have an older version, update with:
 npm update -g @anthropic-ai/claude-code
 ```
 
-### 6. JIRA Account Setup (Required)
+### 5. JIRA Account Setup (Required)
 
 You will need a JIRA account with API access for the workshop exercises.
 
@@ -91,20 +84,20 @@ Have these ready:
 
 - **VS Code** with extensions:
   - Python
-  - Angular Language Service
+  - ES7+ React/Redux/React-Native snippets
   - Tailwind CSS IntelliSense
-- **Chrome or Chromium** browser (for Angular testing)
+  - Prettier - Code formatter
+- **Playwright browsers** are installed automatically when running `npm install` at the project root
 
 ## Verify Your Setup
 
 Run all verification commands:
 
 ```bash
-python3 --version    # 3.12.x or higher
+python3 --version    # 3.9.x or higher
 node --version       # v18.x or higher
 npm --version        # 9.x or higher
 git --version        # Any version
-make --version       # Any version
 claude --version     # 2.1.x or higher
 ```
 
@@ -115,11 +108,42 @@ Clone the repository and verify everything works:
 ```bash
 git clone https://github.com/gravity9-tech/claude_code_workshop
 cd claude_code_workshop
-make install         # Should complete without errors
-make dev             # Should start both servers
 ```
 
+### Start the Application
+
+```bash
+./start.sh
+```
+
+This will:
+1. Install Python dependencies (backend)
+2. Install npm dependencies (frontend)
+3. Start the backend on http://localhost:8765
+4. Start the frontend on http://localhost:4321
+
 Visit http://localhost:4321 - you should see the Tea Store application.
+
+Press `Ctrl+C` to stop both services.
+
+### Run Tests
+
+```bash
+./test.sh              # Run backend + frontend unit tests
+./test.sh --e2e        # Include E2E tests (requires Playwright browsers)
+./test.sh --coverage   # Run with coverage reports
+```
+
+## Project Structure
+
+```
+tea-store-demo/
+├── backend/           # Python FastAPI backend
+├── frontend/          # React + TypeScript + Vite frontend
+├── e2e/               # Playwright E2E tests
+├── start.sh           # Start both services
+└── test.sh            # Run all tests
+```
 
 ## Troubleshooting
 
@@ -129,11 +153,21 @@ If `python3` points to an older version, you may need to use `python3.12` explic
 ### Permission errors on npm global install
 Use `sudo npm install -g` or configure npm to use a different directory for global packages.
 
-### Make not found on Windows
-Consider using WSL2 (Windows Subsystem for Linux) for the best experience, or install Make via Chocolatey.
+### Port already in use
+If ports 4321 or 8765 are in use, the scripts will try alternative ports or you can kill existing processes:
+```bash
+lsof -ti:4321 | xargs kill -9  # Kill process on port 4321
+lsof -ti:8765 | xargs kill -9  # Kill process on port 8765
+```
 
 ### Claude Code authentication
 Run `claude` and follow the prompts to authenticate before the workshop.
+
+### Playwright browser installation
+Playwright browsers are installed automatically via `postinstall`. If E2E tests fail due to missing browsers, reinstall manually:
+```bash
+npx playwright install chromium
+```
 
 ---
 

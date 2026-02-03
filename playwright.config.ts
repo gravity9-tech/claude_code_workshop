@@ -1,5 +1,11 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const isWindows = process.platform === 'win32';
+
+const backendCommand = isWindows
+  ? 'cd backend && call venv\\Scripts\\activate.bat && python main.py'
+  : 'cd backend && source venv/bin/activate && python main.py';
+
 export default defineConfig({
   testDir: './e2e',
   fullyParallel: true,
@@ -19,7 +25,7 @@ export default defineConfig({
   ],
   webServer: [
     {
-      command: 'bash -c "cd backend && source venv/bin/activate && python main.py"',
+      command: backendCommand,
       url: 'http://localhost:8765/api/products',
       reuseExistingServer: !process.env.CI,
       timeout: 60000,

@@ -73,14 +73,16 @@ tea-store-demo/
 - Node.js 18+
 - npm
 
-> **Note for Windows users:** The shell scripts (`start.sh`, `test.sh`) require WSL, Git Bash, or a similar bash environment.
-
 ### Quick Start
 
 The easiest way to run the application:
 
 ```bash
+# macOS/Linux
 ./start.sh
+
+# Windows
+start.bat
 ```
 
 This will:
@@ -99,7 +101,11 @@ If you prefer to set up manually:
 # Backend
 cd backend
 python -m venv venv
-source venv/bin/activate
+
+# Activate virtual environment
+source venv/bin/activate        # macOS/Linux
+venv\Scripts\activate.bat       # Windows
+
 pip install -r requirements.txt
 
 # Frontend
@@ -115,7 +121,8 @@ npm install
 ```bash
 # Backend (port 8765)
 cd backend
-source venv/bin/activate
+source venv/bin/activate        # macOS/Linux
+venv\Scripts\activate.bat       # Windows
 python main.py
 
 # Frontend (port 4321) - in a separate terminal

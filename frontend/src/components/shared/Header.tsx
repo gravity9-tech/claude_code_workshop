@@ -66,6 +66,7 @@ export function Header({ onFilterCategory }: HeaderProps) {
               {/* Wishlist Button */}
               <Link
                 to="/wishlist"
+                data-testid="wishlist-link"
                 className="relative text-white hover:text-gold transition-colors"
               >
                 <svg
@@ -81,13 +82,14 @@ export function Header({ onFilterCategory }: HeaderProps) {
                     d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
                   />
                 </svg>
-                <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full px-1.5 py-0.5 text-xs font-semibold min-w-[20px] text-center">
+                <span data-testid="wishlist-badge" className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full px-1.5 py-0.5 text-xs font-semibold min-w-[20px] text-center">
                   {getWishlistCount()}
                 </span>
               </Link>
 
               {/* Dark Mode Toggle */}
               <button
+                data-testid="theme-toggle"
                 onClick={toggleTheme}
                 className="text-white hover:text-gold transition-colors focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-luxury rounded-lg p-1"
                 aria-label="Toggle dark mode"
@@ -125,6 +127,7 @@ export function Header({ onFilterCategory }: HeaderProps) {
 
               {/* Cart Button */}
               <button
+                data-testid="cart-button"
                 onClick={openCart}
                 className="relative bg-gold hover:bg-dark-gold px-4 py-2 rounded-lg transition-colors font-semibold"
               >
@@ -142,7 +145,7 @@ export function Header({ onFilterCategory }: HeaderProps) {
                       d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
                     />
                   </svg>
-                  <span className="bg-black text-white rounded-full px-2 py-0.5 text-xs">
+                  <span data-testid="cart-badge" className="bg-black text-white rounded-full px-2 py-0.5 text-xs">
                     {getItemCount()}
                   </span>
                 </span>

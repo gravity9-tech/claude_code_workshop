@@ -59,7 +59,7 @@ tea-store-demo/
 │   └── vite.config.ts
 │
 ├── e2e/                        # Playwright E2E tests
-├── test.sh                     # Test runner script
+├── test.js                     # Cross-platform test runner
 ├── playwright.config.ts
 ├── .gitignore
 └── README.md
@@ -171,14 +171,20 @@ The application will be available at:
 
 ### Test Runner Script
 
-The `test.sh` script runs all tests:
+The `test.js` script runs all tests (cross-platform):
 
 ```bash
-./test.sh              # Run backend + frontend unit tests
-./test.sh --e2e        # Include E2E tests
-./test.sh --e2e --headed  # Run E2E tests with visible browser
-./test.sh --coverage   # Run with coverage reports
-./test.sh --help       # Show all options
+# Using node directly
+node test.js              # Run backend + frontend unit tests
+node test.js --e2e        # Include E2E tests
+node test.js --e2e --headed  # Run E2E tests with visible browser
+node test.js --coverage   # Run with coverage reports
+node test.js --help       # Show all options
+
+# Or using npm scripts
+npm test                  # Run backend + frontend unit tests
+npm run test:all          # Include E2E tests
+npm run test:coverage     # Run with coverage reports
 ```
 
 | Option | Description |

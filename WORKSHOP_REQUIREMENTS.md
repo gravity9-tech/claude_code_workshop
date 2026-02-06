@@ -129,9 +129,15 @@ Press `Ctrl+C` to stop both services.
 ### Run Tests
 
 ```bash
-./test.sh              # Run backend + frontend unit tests
-./test.sh --e2e        # Include E2E tests (requires Playwright browsers)
-./test.sh --coverage   # Run with coverage reports
+# Using node directly (cross-platform)
+node test.js              # Run backend + frontend unit tests
+node test.js --e2e        # Include E2E tests (requires Playwright browsers)
+node test.js --coverage   # Run with coverage reports
+
+# Or using npm scripts
+npm test                  # Run backend + frontend unit tests
+npm run test:all          # Include E2E tests
+npm run test:coverage     # Run with coverage reports
 ```
 
 ## Project Structure
@@ -142,7 +148,7 @@ tea-store-demo/
 ├── frontend/          # React + TypeScript + Vite frontend
 ├── e2e/               # Playwright E2E tests
 ├── start.sh           # Start both services
-└── test.sh            # Run all tests
+└── test.js            # Cross-platform test runner
 ```
 
 ## Troubleshooting

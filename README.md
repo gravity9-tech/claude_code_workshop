@@ -143,7 +143,6 @@ The application will be available at:
 | GET | `/api/products/{id}` | Get product by ID |
 | GET | `/api/products/category/{category}` | Get products by category |
 | GET | `/api/customization-config/{category}` | Get customization options |
-| GET | `/health` | Health check |
 
 ### Query Parameters for `/api/products`
 

@@ -23,9 +23,3 @@ app.add_middleware(
 
 # Include API routes
 app.include_router(router, prefix="/api", tags=["products"])
-
-
-@app.get("/health")
-async def health_check():
-    """Health check endpoint"""
-    return {"status": "healthy", "service": "pandora-api"}

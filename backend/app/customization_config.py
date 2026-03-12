@@ -1,6 +1,9 @@
-"""
-Customization Configuration
-Centralized configuration for all product customization options and pricing
+"""Customization configuration for Steep House product categories.
+
+Defines Pydantic models and per-category configuration objects for all
+product customization options (package size, brew style, add-ons, etc.)
+along with their pricing modifiers. Exposes a single lookup function,
+``get_customization_config``, for use by API route handlers.
 """
 
 from typing import Any, Dict, List, Optional
@@ -9,7 +12,34 @@ from pydantic import BaseModel, Field
 
 
 class CustomizationOptionValue(BaseModel):
-    """Individual option value (e.g., '50g' or 'Loose Leaf')"""
+    """Individual selectable value within a customization option.
+
+    Represents a single choice a customer can make — for example ``"50g"``
+    within a *Package Size* option — together with any price adjustment that
+    choice carries.
+
+    Attributes:
+        value (str): Machine-readable identifier for this choice
+            (e.g., ``"50g"``, ``"loose"``).
+        price_modifier (float): Additional cost in USD added to the base
+            product price when this value is selected. Defaults to ``0.0``.
+        display_name (str): Human-readable label shown in the UI
+            (e.g., ``"50g"`` or ``"Loose Leaf"``).
+        description (Optional[str]): Short supplementary text displayed
+            beneath the label in the UI. Defaults to ``None``.
+
+    Example:
+        >>> opt_val = CustomizationOptionValue(
+        ...     value="100g",
+        ...     price_modifier=15.0,
+        ...     display_name="100g",
+        ...     description="Regular size",
+        ... )
+        >>> opt_val.value
+        '100g'
+        >>> opt_val.price_modifier
+        15.0
+    """
 
     value: str
     price_modifier: float = Field(
@@ -20,7 +50,45 @@ class CustomizationOptionValue(BaseModel):
 
 
 class CustomizationOption(BaseModel):
-    """A customization category (e.g., Package Size, Brew Style)"""
+    """A single customization dimension presented to the customer.
+
+    Groups a set of ``CustomizationOptionValue`` choices under a labelled
+    category such as *Package Size* or *Brew Strength*, and carries metadata
+    used by the frontend to render the appropriate input widget and validate
+    the customer's selection.
+
+    Attributes:
+        option_id (str): Snake-case identifier for this option
+            (e.g., ``"package_size"``, ``"brew_strength"``).
+        display_name (str): Human-readable label shown as the option heading
+            in the UI (e.g., ``"Package Size"``).
+        option_type (str): Widget type hint for the frontend. One of
+            ``"select"``, ``"text"``, ``"number"``, or ``"multi_select"``.
+        required (bool): Whether the customer must supply a value before
+            adding the product to the cart. Defaults to ``True``.
+        values (List[CustomizationOptionValue]): Ordered list of selectable
+            values. Empty for free-form types such as ``"text"``.
+        validation_rules (Optional[Dict[str, Any]]): Arbitrary validation
+            constraints forwarded to the frontend (e.g.,
+            ``{"max_length": 100}``). Defaults to ``None``.
+        order (int): Ascending display order within the parent config.
+            Defaults to ``1``.
+        help_text (Optional[str]): Instructional text displayed near the
+            option widget. Defaults to ``None``.
+
+    Example:
+        >>> option = CustomizationOption(
+        ...     option_id="brew_strength",
+        ...     display_name="Brew Strength",
+        ...     option_type="select",
+        ...     required=True,
+        ...     order=2,
+        ... )
+        >>> option.option_id
+        'brew_strength'
+        >>> option.required
+        True
+    """
 
     option_id: str  # e.g., "package_size", "brew_style"
     display_name: str
@@ -33,7 +101,32 @@ class CustomizationOption(BaseModel):
 
 
 class ProductCustomizationConfig(BaseModel):
-    """Customization configuration for a product category"""
+    """Complete customization configuration for a tea product category.
+
+    Aggregates all ``CustomizationOption`` objects that apply to a specific
+    product category (``black``, ``green``, ``oolong``, or ``herbal``) and
+    an optional preview template string used by the frontend to render a
+    human-readable order summary.
+
+    Attributes:
+        category (str): Tea category identifier. One of ``"black"``,
+            ``"green"``, ``"oolong"``, or ``"herbal"``.
+        options (List[CustomizationOption]): Ordered list of customization
+            dimensions available for this category.
+        preview_template (Optional[str]): Template string for generating a
+            human-readable preview of the customer's selections.
+            Defaults to ``None``.
+
+    Example:
+        >>> config = ProductCustomizationConfig(
+        ...     category="herbal",
+        ...     options=[],
+        ... )
+        >>> config.category
+        'herbal'
+        >>> config.options
+        []
+    """
 
     category: str
     options: List[CustomizationOption]
@@ -450,13 +543,27 @@ CUSTOMIZATION_CONFIGS: Dict[str, ProductCustomizationConfig] = {
 
 
 def get_customization_config(category: str) -> Optional[ProductCustomizationConfig]:
-    """
-    Retrieve customization configuration for a product category
+    """Retrieve the customization configuration for a product category.
+
+    Performs a dictionary lookup against the module-level
+    ``CUSTOMIZATION_CONFIGS`` registry and returns the matching
+    ``ProductCustomizationConfig`` instance, or ``None`` when the supplied
+    category is not recognised.
 
     Args:
-        category: Product category (black, green, oolong, herbal)
+        category (str): Tea product category to look up. Expected values are
+            ``"black"``, ``"green"``, ``"oolong"``, and ``"herbal"``.
 
     Returns:
-        ProductCustomizationConfig or None if category not found
+        Optional[ProductCustomizationConfig]: The configuration object for
+            the requested category, or ``None`` if the category is not found
+            in the registry.
+
+    Example:
+        >>> config = get_customization_config("green")
+        >>> config.category
+        'green'
+        >>> get_customization_config("unknown") is None
+        True
     """
     return CUSTOMIZATION_CONFIGS.get(category)

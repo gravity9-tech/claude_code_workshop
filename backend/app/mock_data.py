@@ -1,6 +1,11 @@
+"""Mock product data for the Steep House premium tea showcase.
+
+Provides an in-memory list of 15 tea products and helper functions
+for querying them. Used in place of a database during development.
+"""
+
 from app.models import Product
 
-# Mock product data for premium tea showcase
 PRODUCTS = [
     Product(
         id=1,
@@ -156,12 +161,34 @@ PRODUCTS = [
 
 
 def get_all_products():
-    """Get all products"""
+    """Get all products.
+
+    Returns:
+        List[Product]: A list of all 15 tea products in the catalog.
+
+    Example:
+        >>> products = get_all_products()
+        >>> len(products)
+        15
+    """
     return PRODUCTS
 
 
 def get_product_by_id(product_id: int):
-    """Get a product by its ID"""
+    """Get a product by its ID.
+
+    Args:
+        product_id (int): The unique identifier of the product to retrieve.
+
+    Returns:
+        Optional[Product]: The matching Product instance, or None if no product
+        with the given ID exists.
+
+    Example:
+        >>> product = get_product_by_id(1)
+        >>> product.name
+        'Dragon Well Green Tea'
+    """
     for product in PRODUCTS:
         if product.id == product_id:
             return product
@@ -169,5 +196,19 @@ def get_product_by_id(product_id: int):
 
 
 def get_products_by_category(category: str):
-    """Get all products in a specific category"""
+    """Get all products in a specific category.
+
+    Args:
+        category (str): The product category to filter by. Valid values are
+            ``"black"``, ``"green"``, ``"oolong"``, and ``"herbal"``.
+
+    Returns:
+        List[Product]: A list of products belonging to the specified category.
+        Returns an empty list if the category does not match any products.
+
+    Example:
+        >>> teas = get_products_by_category("green")
+        >>> all(p.category == "green" for p in teas)
+        True
+    """
     return [product for product in PRODUCTS if product.category == category]

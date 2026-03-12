@@ -1,3 +1,9 @@
+"""FastAPI application entry point for the Steep House backend.
+
+Creates and configures the FastAPI application instance, sets up
+CORS middleware to allow requests from the React frontend dev server
+at localhost:4321, and mounts the API router under the /api prefix.
+"""
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 

@@ -56,6 +56,7 @@ describe('ProductService', () => {
         category: 'green',
         priceMax: null,
         material: null,
+        name: null,
       }
       const result = await getProducts(filters)
 
@@ -71,6 +72,7 @@ describe('ProductService', () => {
         category: 'black',
         priceMax: 30,
         material: 'India',
+        name: null,
       }
       const result = await getProducts(filters)
 
@@ -87,11 +89,42 @@ describe('ProductService', () => {
         category: 'all',
         priceMax: null,
         material: null,
+        name: null,
       }
       const result = await getProducts(filters)
 
       expect(mockFetchApi).toHaveBeenCalledWith('/products')
       expect(result).toEqual(mockProducts)
+    })
+
+    it('should fetch products with name filter', async () => {
+      mockFetchApi.mockResolvedValueOnce([mockProducts[0]])
+
+      const filters: ProductFilters = {
+        category: null,
+        priceMax: null,
+        material: null,
+        name: 'Dragon',
+      }
+      const result = await getProducts(filters)
+
+      expect(mockFetchApi).toHaveBeenCalledWith('/products?name=Dragon')
+      expect(result).toHaveLength(1)
+    })
+
+    it('should fetch products with name and other filters combined', async () => {
+      mockFetchApi.mockResolvedValueOnce([mockProducts[0]])
+
+      const filters: ProductFilters = {
+        category: 'green',
+        priceMax: null,
+        material: null,
+        name: 'Dragon',
+      }
+      const result = await getProducts(filters)
+
+      expect(mockFetchApi).toHaveBeenCalledWith('/products?category=green&name=Dragon')
+      expect(result).toHaveLength(1)
     })
   })
 

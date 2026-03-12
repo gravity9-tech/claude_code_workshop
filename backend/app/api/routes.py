@@ -17,6 +17,7 @@ def health_check():
     return {"status": "ok"}
 
 
+# Following AIP rules for validation and error handling
 @router.get("/products", response_model=List[Product])
 async def get_products(
     category: Optional[str] = Query(
@@ -27,6 +28,9 @@ async def get_products(
     ),
     material: Optional[str] = Query(
         None, description="Filter by origin: China, Japan, India, Taiwan"
+    ),
+    name: Optional[str] = Query(
+        None, description="Filter by product name (case-insensitive partial match)"
     ),
 ):
     """Get all products with optional filters"""
@@ -52,6 +56,9 @@ async def get_products(
                 detail=f"Invalid origin. Must be one of: {', '.join(valid_materials)}",
             )
         products = [p for p in products if p.material == material]
+
+    if name:
+        products = [p for p in products if name.lower() in p.name.lower()]
 
     return products
 

@@ -15,6 +15,13 @@ export function FilterSection({
   onFilterChange,
   onClearFilters,
 }: FilterSectionProps) {
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onFilterChange({
+      ...filters,
+      name: e.target.value || null,
+    });
+  };
+
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
     onFilterChange({
@@ -44,6 +51,25 @@ export function FilterSection({
       <div className="bg-white rounded-lg shadow-md p-6">
         <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
           <div className="flex flex-col md:flex-row gap-4 flex-1 w-full md:w-auto">
+            {/* Name Search */}
+            <div className="flex-1 min-w-[200px]">
+              <label
+                htmlFor="nameFilter"
+                className="block text-sm font-semibold text-gray-700 mb-2"
+              >
+                Search
+              </label>
+              <input
+                id="nameFilter"
+                type="text"
+                data-testid="name-search-input"
+                value={filters.name || ''}
+                onChange={handleNameChange}
+                placeholder="Search by tea name..."
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent bg-white"
+              />
+            </div>
+
             {/* Category Filter */}
             <div className="flex-1 min-w-[200px]">
               <label

@@ -49,6 +49,46 @@ test.describe('Home Page', () => {
   });
 });
 
+test.describe('Name Search Filter', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/');
+    await expect(page.locator('[data-testid="product-card"]').first()).toBeVisible({ timeout: 10000 });
+  });
+
+  test('displays name search input with placeholder', async ({ page }) => {
+    const searchInput = page.locator('[data-testid="name-search-input"]');
+    await expect(searchInput).toBeVisible();
+    await expect(searchInput).toHaveAttribute('placeholder', 'Search by tea name...');
+  });
+
+  test('typing "Dragon" filters products to only show matching names', async ({ page }) => {
+    const searchInput = page.locator('[data-testid="name-search-input"]');
+    await searchInput.fill('Dragon');
+
+    await page.waitForTimeout(500);
+
+    const productCards = page.locator('[data-testid="product-card"]');
+    const count = await productCards.count();
+    expect(count).toBeGreaterThan(0);
+
+    for (let i = 0; i < count; i++) {
+      const name = await productCards.nth(i).locator('h3, [data-testid="product-name"]').textContent();
+      expect(name?.toLowerCase()).toContain('dragon');
+    }
+  });
+
+  test('Clear All Filters resets the search field', async ({ page }) => {
+    const searchInput = page.locator('[data-testid="name-search-input"]');
+    await searchInput.fill('Dragon');
+    await page.waitForTimeout(300);
+
+    await page.click('button:has-text("Clear All Filters")');
+    await page.waitForTimeout(300);
+
+    await expect(searchInput).toHaveValue('');
+  });
+});
+
 test.describe('Header Navigation', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/');

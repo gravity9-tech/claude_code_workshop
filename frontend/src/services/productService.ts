@@ -13,6 +13,9 @@ export async function getProducts(filters?: ProductFilters): Promise<Product[]> 
   if (filters?.material && filters.material !== 'all') {
     params.set('material', filters.material);
   }
+  if (filters?.name) {
+    params.set('name', filters.name);
+  }
 
   const queryString = params.toString();
   const endpoint = queryString ? `/products?${queryString}` : '/products';

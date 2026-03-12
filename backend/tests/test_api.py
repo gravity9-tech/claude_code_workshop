@@ -179,3 +179,32 @@ class TestProductAPI:
         assert response.status_code == 200
         products = response.json()
         assert products == []
+
+    def test_filter_by_name(self):
+        """Test filtering products by name (case-insensitive partial match)"""
+        response = client.get("/api/products?name=Dragon")
+        assert response.status_code == 200
+        products = response.json()
+        assert len(products) > 0
+        assert all("dragon" in p["name"].lower() for p in products)
+
+    def test_filter_by_name_case_insensitive(self):
+        """Test that name filter is case-insensitive"""
+        response_upper = client.get("/api/products?name=dragon")
+        response_lower = client.get("/api/products?name=DRAGON")
+        assert response_upper.status_code == 200
+        assert response_lower.status_code == 200
+        assert response_upper.json() == response_lower.json()
+
+    def test_filter_by_name_no_results(self):
+        """Test name filter with no matching products"""
+        response = client.get("/api/products?name=zzznomatch")
+        assert response.status_code == 200
+        assert response.json() == []
+
+    def test_filter_by_name_and_category(self):
+        """Test filtering by name combined with category"""
+        response = client.get("/api/products?name=tea&category=green")
+        assert response.status_code == 200
+        products = response.json()
+        assert all(p["category"] == "green" and "tea" in p["name"].lower() for p in products)

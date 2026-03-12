@@ -21,6 +21,7 @@ export function HomePage() {
     category: searchParams.get('category') || null,
     priceMax: searchParams.get('price') ? parseInt(searchParams.get('price')!, 10) : null,
     material: searchParams.get('material') || null,
+    name: null,
   });
 
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -69,7 +70,7 @@ export function HomePage() {
   };
 
   const handleClearFilters = () => {
-    setFilters({ category: null, priceMax: null, material: null });
+    setFilters({ category: null, priceMax: null, material: null, name: null });
   };
 
   const handleAddToCart = (product: Product) => {

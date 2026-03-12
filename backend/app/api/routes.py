@@ -12,6 +12,11 @@ from app.models import Product
 router = APIRouter()
 
 
+@router.get("/health")
+def health_check():
+    return {"status": "ok"}
+
+
 @router.get("/products", response_model=List[Product])
 async def get_products(
     category: Optional[str] = Query(
@@ -49,6 +54,16 @@ async def get_products(
         products = [p for p in products if p.material == material]
 
     return products
+
+
+# Following AIP rules for validation and error handling
+@router.get("/products/search", response_model=List[Product])
+async def search_products(
+    q: str = Query(..., description="Search query to match against product names"),
+):
+    """Search products by name"""
+    products = get_all_products()
+    return [p for p in products if q.lower() in p.name.lower()]
 
 
 @router.get("/products/{product_id}", response_model=Product)

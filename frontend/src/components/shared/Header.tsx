@@ -4,9 +4,10 @@ import { useCart, useWishlist, useTheme } from '../../contexts';
 
 interface HeaderProps {
   onFilterCategory: (category: string) => void;
+  onSearch: (query: string) => void;
 }
 
-export function Header({ onFilterCategory }: HeaderProps) {
+export function Header({ onFilterCategory, onSearch }: HeaderProps) {
   const { openCart, getItemCount } = useCart();
   const { getItemCount: getWishlistCount } = useWishlist();
   const { theme, toggleTheme } = useTheme();
@@ -62,6 +63,14 @@ export function Header({ onFilterCategory }: HeaderProps) {
                   Herbal
                 </button>
               </nav>
+
+              {/* Desktop Search */}
+              <input
+                type="text"
+                placeholder="Search teas…"
+                onChange={(e) => onSearch(e.target.value)}
+                className="hidden md:block bg-transparent border border-white/30 text-white placeholder-white/50 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:border-gold w-40"
+              />
 
               {/* Wishlist Button */}
               <Link
@@ -209,6 +218,13 @@ export function Header({ onFilterCategory }: HeaderProps) {
             >
               Herbal Tea
             </button>
+            {/* Mobile Search */}
+            <input
+              type="text"
+              placeholder="Search teas…"
+              onChange={(e) => onSearch(e.target.value)}
+              className="bg-transparent border border-white/30 text-white placeholder-white/50 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gold w-full"
+            />
           </nav>
         </div>
       )}

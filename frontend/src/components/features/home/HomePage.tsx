@@ -23,6 +23,7 @@ export function HomePage() {
     material: searchParams.get('material') || null,
   });
 
+  const [searchQuery, setSearchQuery] = useState('');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [customizationOpen, setCustomizationOpen] = useState(false);
 
@@ -101,13 +102,23 @@ export function HomePage() {
     });
   };
 
-  // Store the function in window for access from App
+  // Store functions in window for access from App
   useEffect(() => {
-    (window as unknown as { filterByCategory?: (category: string) => void }).filterByCategory = filterByCategory;
+    type AppWindow = Window & { filterByCategory?: (category: string) => void; onSearch?: (q: string) => void };
+    const win = window as unknown as AppWindow;
+    win.filterByCategory = filterByCategory;
+    win.onSearch = setSearchQuery;
     return () => {
-      delete (window as unknown as { filterByCategory?: (category: string) => void }).filterByCategory;
+      delete win.filterByCategory;
+      delete win.onSearch;
     };
   });
+
+  const displayedProducts = searchQuery
+    ? filteredProducts.filter((p) =>
+        p.name.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : filteredProducts;
 
   return (
     <main className="container mx-auto px-4 py-8">
@@ -115,7 +126,7 @@ export function HomePage() {
 
       <FilterSection
         filters={filters}
-        resultCount={filteredProducts.length}
+        resultCount={displayedProducts.length}
         totalCount={allProducts.length}
         onFilterChange={handleFilterChange}
         onClearFilters={handleClearFilters}
@@ -125,7 +136,7 @@ export function HomePage() {
         <LoadingSpinner />
       ) : (
         <ProductGrid
-          products={filteredProducts}
+          products={displayedProducts}
           onAddToCart={handleAddToCart}
           onCustomize={handleCustomize}
         />

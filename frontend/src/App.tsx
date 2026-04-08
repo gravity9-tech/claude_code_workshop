@@ -21,6 +21,10 @@ function AppContent() {
     [navigate]
   );
 
+  const handleSearch = useCallback((query: string) => {
+    (window as unknown as { onSearch?: (q: string) => void }).onSearch?.(query);
+  }, []);
+
   useEffect(() => {
     // Preload all products when app starts
     import('./services').then(({ getProducts }) => {
@@ -30,7 +34,7 @@ function AppContent() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 font-sans">
-      <Header onFilterCategory={handleFilterCategory} />
+      <Header onFilterCategory={handleFilterCategory} onSearch={handleSearch} />
 
       <div className="flex-1">
         <Routes>
